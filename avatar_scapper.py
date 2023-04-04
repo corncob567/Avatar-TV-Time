@@ -28,7 +28,7 @@ def getTranscript(url, i):
         
         episode_transcript_df = episode_transcript_df[~episode_transcript_df.character.isna() ].copy()
         episode_transcript_df['dialog'] = episode_transcript_df['dialog'].str.replace(r'\[.*\]', "", regex=True)
-        episode_transcript_df['episode_num'] = i
+        episode_transcript_df['episode'] = i
         
     return episode_transcript_df
 
@@ -60,6 +60,10 @@ def main():
         ep = getTranscript(page_URL, episode_num)
         avatar_dialog = pd.concat([avatar_dialog, ep])
         episode_num += 1
+        
+    avatar_dialog["season"] = avatar_dialog.episode//20 + 1
+    avatar_dialog["episode"] = avatar_dialog.episode - 20*(avatar_dialog.season -1)
+    
         
         
     avatar_dialog.to_csv('./avatar_transcripts.csv', index=False)
