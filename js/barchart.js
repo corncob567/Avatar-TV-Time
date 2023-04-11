@@ -5,7 +5,7 @@ class Barchart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data) {
+  constructor(_config, _data, _xval, _yval) {
     // Configuration object with defaults
     // Important: depending on your vis and the type of interactivity you need
     // you might want to use getter and setter methods for individual attributes
@@ -16,6 +16,8 @@ class Barchart {
       margin: _config.margin || {top: 5, right: 5, bottom: 20, left: 50}
     }
     this.data = _data;
+    this.xval = _xval;
+    this.yval = _yval;
     this.initVis();
   }
   

@@ -11,23 +11,23 @@ d3.csv("/data/avatar_transcripts.csv")
     });
 
     //gets word count of characters across all episodes
-    let character_word_count_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.character);
-    let character_word_count = Array.from(character_word_count_map, ([key, count]) => ({ key, count }));
+    let character_words_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.character);
+    let character_word_count = Array.from(character_words_map, ([key, count]) => ({ key, count }));
     character_word_count.sort((a,b) => b.count - a.count)
-    console.log(character_word_count)
 
-    //gets number of episodes each character has been in    
-    let characters_episodes_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode);
-    console.log(characters_episodes_map)
-    //d3.rollup(athletes, v => v.length, d => d.nation, d => d.sport)
-    //let characters_episodes = Array.from(characters_episodes, ([key, count]) => ({ key, count }));
-    //character_word_count.sort((a,b) => b.count - a.count)
-    //console.log(character_word_count)
+    //gets number of words per episode 
+    let characters_words_per_episode_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
+    let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episode]) => ({ season, episode}));
+    //([season, [ep, [character, count]]]) => ({ season, ep, val: {character, count}})
+    console.log(characters_words_per_episode)
+
+    //gets list of characters who were in each episode
+    let character_in_episodes_map = d3.group(_data, d => d.season, d => d.episode, d=>d.character);
+    let character_in_episodes = Array.from(character_in_episodes_map, ([season, episode]) => ({ season, episode}));
+    console.log(character_in_episodes)
 
 
-
-
-    let character_word_count_chart = new Barchart({
+    let character_appear_count = new Barchart({
       parentElement: '#top_characters_barchart',
       containerWidth: 500,
       containerHeight: 500
