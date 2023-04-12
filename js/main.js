@@ -23,9 +23,14 @@ d3.csv("/data/avatar_transcripts.csv")
 
     //gets list of characters who were in each episode
     let character_in_episodes_map = d3.group(_data, d => d.season, d => d.episode, d=>d.character);
-    let character_in_episodes = Array.from(character_in_episodes_map, ([season, episode]) => ({ season, episode}));
+    let character_in_episodes = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
+    character_in_episodes.forEach(i => {
+      i.episodes = Array.from(i.episodes, ([episodeNum, characters]) => ({ episodeNum, characters}));
+      i.episodes.forEach(episode => {
+        episode.characters = Array.from(episode.characters, ([name, lines]) => ({ name, lines}));
+      });
+    });
     console.log(character_in_episodes)
-
 
     let character_appear_count = new Barchart({
       parentElement: '#top_characters_barchart',
