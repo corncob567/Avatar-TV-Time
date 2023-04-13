@@ -17,7 +17,7 @@ d3.csv("/data/avatar_transcripts.csv")
 
     //gets number of words per episode 
     let characters_words_per_episode_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
-    let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episode]) => ({ season, episode}));
+    let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
     //([season, [ep, [character, count]]]) => ({ season, ep, val: {character, count}})
     console.log(characters_words_per_episode)
 
