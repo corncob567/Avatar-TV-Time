@@ -1,20 +1,78 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Avatar: the Last Airbender</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Avatar: the Last Airbender</h1>        
-    </div>
+    <head>
+        <title>Avatar: The Last Airbender</title>
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/styles.css">
+    </head>
+    <body>
+        <div class="data-info bg-light rounded">
+            <h1>Avatar: The Last Airbender</h1>
+            <p>The dashboard below shows information about the transcript of the "Avatar: The Last Airbender" Nickelodeon TV series. <br/>Explore the data using the visualizations below.</p>
+        </div>
 
-    <div id="tooltip"></div>
-    
-    <script src="js/d3.v6.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/barchart.js"></script>
-    <script src="js/main.js"></script>
-</body>
+        <div class="flex-container">
+            <div class="flex-container bg-light rounded" style="height: fit-content">
+                <svg id="top_characters_barchart"></svg>
+            </div>
+
+            <div class="mapContainer flex-container bg-light rounded">
+                <div class="mapHeader">
+                    <div class="mapTitle">Most Frequent Words</div>
+                    <!--div class="info-icon-container" onclick="infoIconClicked()">
+                        <img src="styles/info-logo.png" class="map-info-tool">
+                        <img src="styles/info-logo-blue.png" class="map-info-tool-blue">
+                    </div-->
+                </div>
+                <div class="cloudInnerContainer">
+                    <div class="cloudFilterLegend">
+                        <div class="cloudFilter">
+                            <!-- Dropdown for color option of map -->
+                            <label for="mapMarkerColor">Choose a character:</label>
+                            <select name="selectedCharacter" id="selectedCharacter" onchange="updateSelectedCharacter(this.value)">
+                                <option value="any">Any</option>
+                            </select>
+                            <!-- Dropdown for background of map -->
+                            <label for="mapBackgroundToggleLabel">Choose a season:</label>
+                            <select name="selectedSeason" id="selectedSeason" onchange="updateSelectedSeason(this.value)">
+                                <option value="any">Any</option>
+                                <option value="1">Book 1: Water</option>
+                                <option value="2">Book 2: Earth</option>
+                                <option value="3">Book 3: Fire</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="wordCloud"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="flex-container footerBar">
+            <div style="align-self: center"><span class="dataCountLabel">Lines In Use:</span><span class="dataCount">0</span></div>
+            <button onClick='clearFilters()' type='button' class="clearFiltersButton">Clear Filters</button>
+            <div style="text-align-last: end">
+                <div class="pageinfo-text">
+                    <span class="name">By: Bryan Cora, Lina Kaval, Daniel Hackney, Sam Shaw | CS6024 Project 3 | <a href="https://github.com/corncob567/Avatar-TV-Time">GitHub</a></span>
+                </div>
+                <span class="visInfo">Data From: <a href="https://avatar.fandom.com">Avatar Fandom</a>
+                    | Data Visualization performed using D3</span>
+            </div>
+        </footer>
+
+        <div id="tooltip"></div>
+        <div id="info-tooltip"></div>
+        
+        <!-- Libraries and Misc -->
+        <script src="js/d3.v6.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+        <!-- D3.cloud -->
+        <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+
+        <!-- JS files -->
+        <script src="js/main.js"></script>
+        <script src="js/barchart.js"></script>
+        <script src="js/wordCloud.js"></script>
+    </body>
 </html>

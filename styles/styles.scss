@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
+
+body {
+  background: #EEF2FF;
+  margin: 0;
+  min-height: 100%;
+  font-family: 'Varela Round', sans-serif;
+}
+
+.data-info{
+  padding: 18px;
+  width: 95%;
+  text-align: center;
+}
+
+.rounded {
+  border-radius: 15px!important;
+  margin: 20px;
+}
+
+.bg-light {
+  background-color: white!important;
+}
+
+.flex-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+button{
+  cursor: pointer;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+}
+
+.pageInfo{
+  flex-basis: 100%;
+  z-index: 999;
+  background-color: rgb(214, 245, 216);
+  position: sticky;
+  top: 0px;
+  p{
+      text-align: center;
+      padding: 4px;
+      margin: 0;
+  }
+  .name{
+      font-weight: 900;
+  }
+  .title{
+      font-weight: 900;
+      font-size: larger;
+  }
+}
+
+.pageinfo-text {
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 5px;;
+}
+
+.footerBar{
+  position: sticky;
+  width: 100%;
+  z-index: 999999;
+  bottom: 0px;
+  background-color: #d3ddf5;
+  span{
+    text-align: center;
+    margin: 10px 5px;
+  }
+  .dataCountLabel, .dataCount{
+    font-size: larger;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  .visInfo{
+    font-size: 12px;
+  }
+  .clearFiltersButton {
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    background-color: white; 
+    color: black; 
+    border: 2px solid #f44336;
+  }
+  .clearFiltersButton:hover {
+    background-color: #f44336;
+    color: white;
+  }
+}
+
+.mapContainer{
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  // border: 3px solid black;
+  select{
+    width: 200px;
+  }
+  #wordCloud {
+    width: 500px;
+    height: 400px;
+    align-self: center;
+    circle.filtered{
+      display: none;
+    }
+    circle:not(.filtered):hover{
+      cursor: pointer;
+    }
+    path{
+      fill: none;
+    }
+  }
+  .mapHeader {
+    display: flex;
+    align-self: center;
+    margin-top: 20px;
+  }
+  .mapTitle {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+  .mapMarkerColor .mapBGToggle {
+    font-size: 15px;
+  }
+  .cloudFilterLegend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cloudFilter {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 30px;
+    width: 280px;
+  }
+  .cloudInnerContainer {
+    display: flex;
+    margin: 20px;
+  }
+}
+
+#heatTimeDiv{
+  rect:hover{
+    stroke: #000000;
+    stroke-width: 2px;
+  }
+  .title{
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+}
+
+// BAR CHARTS
+.barchart, .histogram{
+  // border: 3px solid black;
+  margin: 20px;
+  .bar{
+      fill: #a1d3ec;
+      cursor: pointer;
+  }
+  .x-axis{
+      .tick{
+          text.active{
+              stroke: #676565;
+              paint-order: stroke;
+          }
+          text{
+              cursor: pointer;
+          }
+      }
+  }
+}
+.tick{
+  font-size: 12px;
+}
+.bar{
+  shape-rendering: crispEdges;
+}
+.bar:hover{
+  stroke: #777;
+}
+.bar.active{
+  stroke: #333;
+  stroke-width: 4px;
+}
+.info-logo {
+  width: 20px;
+  height: 20px;
+}
+// END BAR CHARTS
+
+.timeline{
+  margin: 20px;
+  padding: 20px;
+}
+
+.lineChartHolder{
+  flex-basis: auto;
+  #linechart{
+      .chart-line {
+          fill: none;
+          stroke: #77aac6;
+          stroke-width: 3px;
+          clip-path: url(#clip);
+      }
+  }
+}
+
+/* TOOLTIPS */
+#tooltip {
+  position: absolute;
+  display: none;
+  background: #fff;
+  box-shadow: 2px 2px 3px 0px rgb(92 92 92 / 0.5);
+  border: 1px solid #ddd;
+  font-size: 12px;
+  padding: 2px 8px;
+  z-index: 99999;
+}
+.tooltip {
+  font-weight: normal;
+  font-size: 12px;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  display: inline;
+}
+.tooltip-label {
+  font-weight: bold;
+  font-size: 12px;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  display:inline;
+}
+#info-tooltip {
+  position: absolute;
+  display: none;
+  background: #fff;
+  box-shadow: 2px 2px 3px 0px rgb(92 92 92 / 0.5);
+  border: 1px solid #ddd;
+  font-size: 12px;
+  padding: 2px 8px;
+  z-index: 99999;
+}
+.tooltip-more-info {
+  margin-bottom: 5px;
+}
+.info-icon-container {
+  width: 20px;
+  height: 20px;
+  margin-left: 280px;
+  .map-info-tool-blue{display: none;}
+  .map-info-tool {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.info-icon-container:hover {
+  .map-info-tool-blue{
+    display: block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  .map-info-tool{
+    display: none;
+  }
+}
+
+/* END TOOLTIPS */
