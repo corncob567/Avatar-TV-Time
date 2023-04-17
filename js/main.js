@@ -15,6 +15,8 @@ d3.csv("/data/avatar_transcripts.csv")
     data.forEach(d => {
       // Derived properties
       d.filtered = false;
+      d.season = parseInt(d.season);
+      d.episode = parseInt(d.episode);
     })
 
     console.log('Data loading complete. Work with dataset.');
