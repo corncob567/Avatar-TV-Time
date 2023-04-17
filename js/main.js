@@ -27,6 +27,16 @@ d3.csv("/data/avatar_transcripts.csv")
     let character_word_count = Array.from(character_words_map, ([key, count]) => ({ key, count }));
     character_word_count.sort((a,b) => b.count - a.count)
 
+    // populate character selector
+    relevant_characters = character_word_count.slice(0,41)
+    // TODO this should probably be moved. no idea to where tho, just doesn't feel right here
+    relevant_characters.forEach( (d) => {
+      $('#selectedCharacter')
+        .append($("<option></option>")
+        .attr("value",d.key)
+        .text(d.key));
+    })
+
     //gets number of words per episode 
     let characters_words_per_episode_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
     let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
