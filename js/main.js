@@ -39,44 +39,11 @@ d3.csv("/data/avatar_transcripts.csv")
         .text(d.key));
     })
 
-    //gets number of words per episode 
-    let characters_words_per_episode_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
-    let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
-    //([season, [ep, [character, count]]]) => ({ season, ep, val: {character, count}})
-    console.log(characters_words_per_episode)
-
-    let charactersWithLines = [];
-
-    //gets list of characters who were in each episode
-    let character_in_episodes_map = d3.group(_data, d => d.season, d => d.episode, d=>d.character);
-    let character_in_episodes = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
-    character_in_episodes.forEach(i => {
-      i.episodes = Array.from(i.episodes, ([episodeNum, characters]) => ({ episodeNum, characters}));
-      i.episodes.forEach(episode => {
-        episode.characters = Array.from(episode.characters, ([name, lines]) => ({ name, lines}));
-        episode.characters.forEach(character => {
-          let name = character.name.replace(/:/g,'');
-          if(!name.includes(" and ")){
-            if (!charactersWithLines[name]) {
-              charactersWithLines[name] = 1;
-            }
-            else{
-              charactersWithLines[name] += 1;
-            }
-          }
-        })
-      });
-    });
-    console.log(character_in_episodes);
-    console.log(charactersWithLines);
-
-    let character_appear_count = new Barchart({
-      parentElement: '#top_characters_barchart',
-      containerWidth: 500,
-      containerHeight: 500
-      }, character_word_count, "key", "Top Characters", "X", "Y");
+    // console.log(character_in_episodes);
+    // console.log(charactersWithLines);
 
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
+    wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters)
     //descriptionWordCloud.updateVis()
     filterableVisualizations = [descriptionWordCloud];
     filterData(); // initializes filteredData array (to show count on refresh)
