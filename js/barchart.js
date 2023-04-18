@@ -18,8 +18,9 @@ class Barchart {
     this.data = _data;
     this.xval = _xval;
     this.yval = _yval;
-    this.initVis();
     this.relevant_characters = _relevant_characters
+
+    this.initVis();
   }
   
   /**
@@ -109,7 +110,16 @@ class Barchart {
       });
     });
 
-    vis.characterAppearances = Array.from(Object.entries(vis.characterAppearances), ([key, count]) => ({ key, count }))
+    vis.relevantCharacterAppearances = {}
+    vis.relevant_characters.forEach(d => {
+      if (d.key in vis.characterAppearances){
+        vis.relevantCharacterAppearances[d.key] = vis.characterAppearances[d.key]
+      }
+    })
+
+    vis.relevantCharacterAppearances = Array.from(Object.entries(vis.relevantCharacterAppearances), ([key, count]) => ({ key, count }))
+    
+
     // const aggregatedDataMap = d3.rollup(vis.data, v => d3.count(v, d => !d.filtered), d => d.episode);
     // vis.aggregatedData = Array.from(aggregatedDataMap, ([key, count]) => ({key, count}))
     // Specificy x- and y-accessor functions
@@ -117,8 +127,8 @@ class Barchart {
     vis.yValue = d => d.key;
 
     // Set the scale input domains
-    vis.xScale.domain([0, d3.max(vis.characterAppearances, vis.xValue)]);
-    vis.yScale.domain(vis.data.map(vis.yValue));
+    vis.xScale.domain([0, d3.max(vis.relevantCharacterAppearances, vis.xValue)]);
+    vis.yScale.domain(vis.relevantCharacterAppearances.map(vis.yValue));
 
     vis.renderVis();
   }
@@ -133,7 +143,7 @@ class Barchart {
 
     // Add rectangles
     vis.chart.selectAll('.bar')
-        .data(vis.characterAppearances)
+        .data(vis.relevantCharacterAppearances)
         .enter()
       .append('rect')
         .attr('class', 'bar')
