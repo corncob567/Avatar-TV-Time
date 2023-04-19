@@ -13,7 +13,7 @@ class Barchart {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 750,
       containerHeight: _config.containerHeight || 750,
-      margin: _config.margin || {top: 10, right: 30, bottom: 20, left: 50}
+      margin: _config.margin || {top: 10, right: 20, bottom: 20, left: 100}
     }
     this.data = _data;
     this.xval = _xval;
@@ -118,14 +118,11 @@ class Barchart {
     })
 
     vis.relevantCharacterAppearances = Array.from(Object.entries(vis.relevantCharacterAppearances), ([key, count]) => ({ key, count }))
-    
-
-    // const aggregatedDataMap = d3.rollup(vis.data, v => d3.count(v, d => !d.filtered), d => d.episode);
-    // vis.aggregatedData = Array.from(aggregatedDataMap, ([key, count]) => ({key, count}))
+    vis.relevantCharacterAppearances.sort((a, b) => b.count - a.count)
     // Specificy x- and y-accessor functions
     vis.xValue = d => d.count;
     vis.yValue = d => d.key;
-
+ 
     // Set the scale input domains
     vis.xScale.domain([0, d3.max(vis.relevantCharacterAppearances, vis.xValue)]);
     vis.yScale.domain(vis.relevantCharacterAppearances.map(vis.yValue));
@@ -142,7 +139,7 @@ class Barchart {
     let vis = this;
 
     // Add rectangles
-    vis.chart.selectAll('.bar')
+    let bars = vis.chart.selectAll('.bar')
         .data(vis.relevantCharacterAppearances)
         .enter()
       .append('rect')
@@ -151,7 +148,9 @@ class Barchart {
         .attr('height', vis.yScale.bandwidth())
         .attr('y', d => vis.yScale(vis.yValue(d)))
         .attr('x', 0);
-    
+
+
+
     // Update the axes because the underlying scales might have changed
     vis.xAxisG.call(vis.xAxis);
     vis.yAxisG.call(vis.yAxis);
