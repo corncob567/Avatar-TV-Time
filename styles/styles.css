@@ -149,6 +149,11 @@ button {
   margin: 20px;
 }
 
+.tableInnerContainer {
+  display: flex;
+  margin: 20px;
+}
+
 #heatTimeDiv rect:hover {
   stroke: #000000;
   stroke-width: 2px;

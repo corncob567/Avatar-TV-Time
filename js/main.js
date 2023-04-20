@@ -1,6 +1,6 @@
 // GLOBAL VARIABLES
 let data;
-let descriptionWordCloud;
+let descriptionWordCloud, table;
 let globalDataFilter = [];
 let filterableVisualizations = [];
 let stop_words = [];
@@ -55,6 +55,8 @@ d3.csv("/data/avatar_transcripts.csv")
 function updateSelectedCharacter(newCharacterSelection){
   selectedCharacter = newCharacterSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
+  d3.select(".characterTableSelected").text(newCharacterSelection)
+  table.updateVis();
 }
 
 function updateSelectedSeason(newSeasonSelection){
