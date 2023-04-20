@@ -78,46 +78,34 @@ class Piechart {
       this.updateVis();
     }
   
-    /**
-     * This function contains all the code to prepare the data before we render it.
-     * In some cases, you may not need this function but when you create more complex visualizations
-     * you will probably want to organize your code in multiple functions.
-     */
     updateVis() {
         let vis = this;
-        const aggregatedDataMap = d3.rollups(vis.data, v => d3.sum(v, d => !d.filtered && d.benderType !== "Unavailable"), d => d[this.mappedAttribute]);
+        let filteredData = vis.data.filter(d => !d.filtered && d.dialog !== undefined && (d.character.toLowerCase() === selectedCharacter.toLowerCase() || selectedCharacter === "any") && (d.season.toString() === selectedSeason || selectedSeason === "any"))
+        const aggregatedDataMap = d3.rollups(filteredData, v => d3.sum(v, d => !d.filtered && d.benderType !== "Unavailable"), d => d[this.mappedAttribute]);
         vis.aggregatedData = Array.from(aggregatedDataMap, ([key, count]) => ({ key, count }));
         vis.aggregatedData = vis.aggregatedData.filter(d => d.count > 0);
         vis.totalLinesUsed = vis.aggregatedData.reduce((a, b) => a + (b["count"] || 0), 0);
         vis.renderVis();
     }
   
-    /**
-     * This function contains the D3 code for binding data to visual elements.
-     * We call this function every time the data or configurations change 
-     * (i.e., user selects a different year)
-     */
     renderVis() {
         let vis = this;
       
-        // Compute the position of each group on the pie:
         let pie = d3.pie()
             .value(function(d) {return d[1]; });
         
         let dictionary = Object.fromEntries(vis.aggregatedData.map(x => [x.key, x.count]));
         let data_ready = pie(Object.entries(dictionary));
-        console.log(data_ready);
 
         let arcGenerator = d3.arc()
             .innerRadius(0)
             .outerRadius(vis.radius);
         
-        // Build the pie chart: Each part of the pie is a path that built using the arc function
         vis.svg
-            .selectAll('mySlices')
+            .selectAll('.slice')
             .data(data_ready)
-            .enter()
-            .append('path')
+            .join('path')
+            .attr('class', 'slice')
             .transition()
             .duration(1000)
             .attr('d', arcGenerator)
@@ -139,18 +127,18 @@ class Piechart {
             .style("stroke-width", "2px")
             .style("opacity", 0.3);
 
-        // Now add the annotation. Use the centroid method to get the best coordinates
         let labels = vis.svg
-            .selectAll('mySlices')
+            .selectAll('.sliceLabel')
             .data(data_ready)
             .join('text')
+                .attr('class', 'sliceLabel')
                 .text(function(d){ return d.data[0]})
                 .attr("transform", function(d) { return `translate(${arcGenerator.centroid(d)})`})
                 .style("text-anchor", "middle")
                 .style("font-size", 14);
 
         labels.append('tspan')
-            .attr('y', '1em')
+            .attr('y', '1.1em')
             .attr('x', 0)
             .text(d => `${d.data[1]} (${Math.round(d.data[1] / vis.totalLinesUsed * 100)}%)`);
     }

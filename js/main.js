@@ -1,6 +1,6 @@
 // GLOBAL VARIABLES
 let data;
-let descriptionWordCloud;
+let descriptionWordCloud, pieChart;
 let globalDataFilter = [];
 let filterableVisualizations = [];
 let stop_words = [];
@@ -33,7 +33,7 @@ d3.csv("/data/avatar_transcripts.csv")
     character_word_count.sort((a,b) => b.count - a.count)
 
     // populate character selector
-    relevant_characters = character_word_count.slice(0, 81);
+    relevant_characters = character_word_count.slice(0, 41);
     // TODO this should probably be moved. no idea to where tho, just doesn't feel right here
     relevant_characters.forEach( (d) => {
       $('#selectedCharacter')
@@ -79,7 +79,7 @@ d3.csv("/data/avatar_transcripts.csv")
       containerHeight: 500
       }, character_word_count, "key", "Top Characters", "X", "Y");
 
-    let pieChart = new Piechart({
+    pieChart = new Piechart({
       parentElement: '#pieChart',
       containerWidth: 500,
       containerHeight: 600,
@@ -87,7 +87,7 @@ d3.csv("/data/avatar_transcripts.csv")
 
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
     //descriptionWordCloud.updateVis()
-    filterableVisualizations = [descriptionWordCloud];
+    filterableVisualizations = [descriptionWordCloud, pieChart];
     filterData(); // initializes filteredData array (to show count on refresh)
     })
 .catch(error => {
@@ -97,11 +97,13 @@ d3.csv("/data/avatar_transcripts.csv")
 function updateSelectedCharacter(newCharacterSelection){
   selectedCharacter = newCharacterSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
+  pieChart.updateVis(selectedCharacter, selectedSeason);
 }
 
 function updateSelectedSeason(newSeasonSelection){
   selectedSeason = newSeasonSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
+  pieChart.updateVis(selectedCharacter, selectedSeason);
 }
 
 function getBenderType(d){
@@ -109,8 +111,8 @@ function getBenderType(d){
   let airbenders = ["aang", "yang chen", "gyatso"];
   let earthbenders = ["toph", "bumi", "haru", "boulder", "long feng", "fong", "hippo", "xin fu", "kyoshi"];
   let waterbenders = ["katara", "pakku", "hama", "tho", "yu"];
-  let nonbenders = ["sokka", "yue", "hakoda", "suki", "mai", "ty lee", "pathik", "piandao", "jet", "smellerbee", "longshot", "duke", "song", "ursa",
-   "pipsqueak", "mechanist", "bato", "zei", "kuei", "chong", "wu", "arnook", "gan jin leader", "joo dee", "zhang leader", "teo", "xu", "june", "fisherman"];
+  let nonbenders = ["tong", "sokka", "kanna", "yue", "hakoda", "suki", "mai", "ty lee", "pathik", "piandao", "jet", "smellerbee", "longshot", "duke", "song", "ursa",
+   "pipsqueak", "mechanist", "koh", "kay-fon", "bato", "zei", "kuei", "chong", "wu", "arnook", "gan jin leader", "joo dee", "zhang leader", "teo", "xu", "june", "fisherman"];
   let char = d.character.toLowerCase();
   if(firebenders.some(v => char.includes(v))) {
     return "Firebender";
@@ -139,9 +141,6 @@ function filterData(resetBrush = false, fullReset = false) {
 	} else {
 		filterableVisualizations.forEach(v => {
 			filteredData = data.map(d => {
-        if(d.insidePolygon === false && leafletMap.drawnFeatures.getLayers().length > 0){
-          return {...d, filtered: true};
-        }
 				for (i in globalDataFilter){
 					let attrFilter = globalDataFilter[i]
 					if(attrFilter[0] === "requested_date"){
