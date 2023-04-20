@@ -41,6 +41,12 @@ d3.csv("/data/avatar_transcripts.csv")
 
     // console.log(character_in_episodes);
     // console.log(charactersWithLines);
+    console.log("Populating table with values")
+    table = new Table({
+        'containerWidth': 800,
+        'containerHeight': 400,
+    }, data, "Katara"); //update with char
+    table.updateVis();
 
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
     wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters)

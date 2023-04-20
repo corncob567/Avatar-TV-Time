@@ -67,8 +67,8 @@ class Table {
        console.log(vis.config.containerWidth)
         //trigger a on alert message when the row is clicked
         vis.table.on("rowClick", function(e, row){ 
-            console.log("Open exoplanet browser")
-            //console.log(row.getData())
+            console.log("Clicked row")
+            console.log(row.getData())
             openModalBrowser(row.getData());   
             //alert("Row " + row.getData().exoplanet + " Clicked!!!!");
         })
