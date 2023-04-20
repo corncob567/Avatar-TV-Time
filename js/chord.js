@@ -106,7 +106,20 @@ class Chord {
 	{
 		let vis = this;
         let matrix = Array(vis.importantChar.length).fill(null).map((i) => Array(vis.importantChar.length).fill(0));
+		let importantCharRegex = new RegExp(vis.importantChar.join("|"), "gm")
+		vis.data.forEach(d => {
+			let mention = new Set(d.dialog.match(importantCharRegex));
+			if (mention.size != 0){
+				mention.forEach(m => {
+					let talking = vis.importantChar.indexOf(d.character);
+					let talkedAbout = vis.importantChar.indexOf(m)
+					matrix[talking][talkedAbout] += 1
+				})
+			}
+			
+		});
 
+		return matrix;
         
 		// vis.data.forEach(d => {
         //     d.episodes = Array.from(d.episodes, ([episodeNum, characters]) => ({ episodeNum, characters}));
