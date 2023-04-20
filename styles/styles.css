@@ -124,13 +124,10 @@ button {
   align-self: center;
   margin-top: 20px;
 }
-.mapContainer .mapTitle {
+.mapContainer .visTitle {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 15px;
-}
-.mapContainer .mapMarkerColor .mapBGToggle {
-  font-size: 15px;
 }
 .mapContainer .cloudFilterLegend {
   display: flex;

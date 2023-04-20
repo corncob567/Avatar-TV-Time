@@ -8,7 +8,7 @@ let selectedCharacter = "any";
 let selectedSeason = "any";
 //-------------------------//
 d3.csv('/data/stop_words.csv', word => stop_words.push(word.words))
-stop_words.push("ill", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
+stop_words.push("ill", "weve", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
 d3.csv("/data/avatar_transcripts.csv")
   .then(_data =>{
     data = _data;
@@ -17,12 +17,15 @@ d3.csv("/data/avatar_transcripts.csv")
       d.filtered = false;
       d.season = parseInt(d.season);
       d.episode = parseInt(d.episode);
+      d.benderType = getBenderType(d);
+      // TODO: Consolidate similar names, "Young Azula" to just "Azula", etc.
     })
 
     console.log('Data loading complete. Work with dataset.');
 
     // Texts for info tool
     wordCloudText = "This word cloud shows words that are most commonly used by the specified character in the selected season(s)."
+    pieChartText = "This pie chart shows the proportion of lines spoken broken down by the type of bending discipline the speaker has."
 
     //gets word count of characters across all episodes
     let character_words_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.character);
@@ -30,12 +33,12 @@ d3.csv("/data/avatar_transcripts.csv")
     character_word_count.sort((a,b) => b.count - a.count)
 
     // populate character selector
-    relevant_characters = character_word_count.slice(0,41)
+    relevant_characters = character_word_count.slice(0, 81);
     // TODO this should probably be moved. no idea to where tho, just doesn't feel right here
     relevant_characters.forEach( (d) => {
       $('#selectedCharacter')
         .append($("<option></option>")
-        .attr("value",d.key)
+        .attr("value", d.key)
         .text(d.key));
     })
 
@@ -43,7 +46,7 @@ d3.csv("/data/avatar_transcripts.csv")
     let characters_words_per_episode_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
     let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
     //([season, [ep, [character, count]]]) => ({ season, ep, val: {character, count}})
-    console.log(characters_words_per_episode)
+    console.log(characters_words_per_episode);
 
     let charactersWithLines = [];
 
@@ -76,6 +79,12 @@ d3.csv("/data/avatar_transcripts.csv")
       containerHeight: 500
       }, character_word_count, "key", "Top Characters", "X", "Y");
 
+    let pieChart = new Piechart({
+      parentElement: '#pieChart',
+      containerWidth: 500,
+      containerHeight: 600,
+      }, data, "benderType", "Lines by Bending Discipline", pieChartText);
+
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
     //descriptionWordCloud.updateVis()
     filterableVisualizations = [descriptionWordCloud];
@@ -93,6 +102,32 @@ function updateSelectedCharacter(newCharacterSelection){
 function updateSelectedSeason(newSeasonSelection){
   selectedSeason = newSeasonSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
+}
+
+function getBenderType(d){
+  let firebenders = ["azula", "zuko", "ozai", "iroh", "jeong jeong", "zhao", "roku", "warden", "sozin", "sun warrior", "shyu", "yon rha"];
+  let airbenders = ["aang", "yang chen", "gyatso"];
+  let earthbenders = ["toph", "bumi", "haru", "boulder", "long feng", "fong", "hippo", "xin fu", "kyoshi"];
+  let waterbenders = ["katara", "pakku", "hama", "tho", "yu"];
+  let nonbenders = ["sokka", "yue", "hakoda", "suki", "mai", "ty lee", "pathik", "piandao", "jet", "smellerbee", "longshot", "duke", "song", "ursa",
+   "pipsqueak", "mechanist", "bato", "zei", "kuei", "chong", "wu", "arnook", "gan jin leader", "joo dee", "zhang leader", "teo", "xu", "june", "fisherman"];
+  let char = d.character.toLowerCase();
+  if(firebenders.some(v => char.includes(v))) {
+    return "Firebender";
+  }
+  if(earthbenders.some(v => char.includes(v))) {
+    return "Earthbender";
+  }
+  if(waterbenders.some(v => char.includes(v))) {
+    return "Waterbender";
+  }
+  if(airbenders.some(v => char.includes(v))) {
+    return "Airbender";
+  }
+  if(nonbenders.some(v => char.includes(v))) {
+    return "Nonbender";
+  }
+  return "Unavailable";
 }
 
 function filterData(resetBrush = false, fullReset = false) {
@@ -132,7 +167,6 @@ function filterData(resetBrush = false, fullReset = false) {
 }
 
 function clearFilters(){
-  leafletMap.drawnFeatures.clearLayers()
 	globalDataFilter = [];
 	filterData(resetBrush=true, fullReset=true);
 }
