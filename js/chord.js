@@ -7,8 +7,8 @@ class Chord {
 	constructor(_config, _data, _importantChar) {
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: _config.containerWidth || 450,
-      containerHeight: _config.containerHeight || 500,
+      containerWidth: _config.containerWidth || 700,
+      containerHeight: _config.containerHeight || 700,
       margin: { top: 30, bottom: 10, right: 10, left: 10 }
     }
 
@@ -22,7 +22,6 @@ class Chord {
 	initVis()
 	{
 		let vis = this;
-		//vis.charMatrixFull = [];
 		
 		vis.colors = ["#8dd3c7","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"];
 		
@@ -36,13 +35,6 @@ class Chord {
 		
 		//vis.UpdateVis();
 		let matrix = vis.getMatrix();
-        //TODO: use actual matrix, not fake data
-        /*var matrix = [
-            [11975,  5871, 8916, 2868],
-            [ 1951, 10048, 2060, 6171],
-            [ 8010, 16145, 8090, 8045],
-            [ 1013,   990,  940, 6907]
-          ];*/
 		
 		vis.chordArc = d3.chord()
 			.padAngle(0.05)
@@ -52,17 +44,45 @@ class Chord {
 		vis.svg
 			.datum(vis.chordArc)
 			.append('g')
-				.attr("transform", "translate(500,500)")
+            .attr("transform", `translate(${vis.config.containerWidth/2},${ vis.config.containerHeight/2})`)
+            //.attr("class", d => {return "group " + vis.importantChar[d.index];})
 			.selectAll('g')
 			.data(d => d.groups)
-			.join('g')
+            //console.log(d => d.groups)
 			.join('path')
-				.style("fill", "grey")
+                .attr("class", d => {return "group " + vis.importantChar[d.index];})
+                .attr("id", d => {return "#group" + vis.importantChar[d.index];})
+                .style("fill", d => vis.colors[d.index])
 				.style("stroke", "black")
+                .style("opacity", "0.5")
 				.attr("d", d3.arc()
-				  .innerRadius(0)
-				  .outerRadius(500)
-				);
+				  .innerRadius(300)
+				  .outerRadius(320)
+				)
+            //.append("g")
+            .append('text')
+                /*.each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
+                .attr("x", "5")
+                .attr("dy", ".35em")
+                .attr("class", "titles")
+                .attr("text-anchor", d => {return ((d.angle > Math.PI) ? "end" : null)})
+                //.attr("transform", `translate(${vis.config.containerWidth/2},${ vis.config.containerHeight/2})`)
+                /*.attr("transform", d => {
+                        return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+                        + "translate(" + (300 + 55) + ")"
+                        + (d.angle > Math.PI ? "rotate(180)" : "");
+                })
+                .style("fill", "black")
+                .text(d => vis.importantChar[d.index]);*/
+                .attr("class", "titles")
+                .attr("x", 6)
+                .attr("dy", d => { return (d.endAngle > 90*Math.PI/180 & d.startAngle < 270*Math.PI/180 ? 25 : -16); })
+                .append("textPath")
+                    .attr("startOffset","50%")
+                    .style("text-anchor","middle")
+                    .style("fill", "black")
+                    .attr("xlink:href", d => {return "#group"+vis.importantChar[d.index];})
+                    .text(d =>{ return vis.importantChar[d.index]; });
 				
 		vis.svg
 		  .datum(vis.chordArc)
@@ -72,7 +92,7 @@ class Chord {
 		  .data(d => d)
 		  .join("path")
 			.attr("d", d3.ribbon()
-			  .radius(200)
+			  .radius(300)
 			)
 			.style("fill", d => vis.colors[d.source.index % 11])
 			.style("stroke", "black")
@@ -81,7 +101,7 @@ class Chord {
 							  .style('display', 'block')
 							  .style('left', (event.pageX + 10) + 'px')   
 							  .style('top', (event.pageY + 10) + 'px')
-							  .html(`<div class="tooltip"><li>${impChar[d.source.index]} shared scenes with ${impChar[d.target.index]} ${d.source.value} times </li></div>
+							  .html(`${vis.importantChar[d.source.index]} referenced ${vis.importantChar[d.target.index]} ${d.source.value} times
 								  `);}) 
 		   .on('mouseleave', () => {
 			  d3.select('#tooltip').style('display', 'none');
@@ -89,7 +109,7 @@ class Chord {
 
 		let font_size = 12;
 		// Title label
-		vis.svg.append("g")
+		/*vis.svg.append("g")
 			.attr('transform', 'translate(' + (vis.config.containerWidth/2 - vis.config.margin.right) + ', ' + (font_size + 4) + ')')
 			.append('text')
 			.attr('text-anchor', 'middle')
@@ -97,11 +117,10 @@ class Chord {
 			// These can be replaced by style if necessary
 			//.attr('font-family', 'sans-serif')
 			.attr("font-weight", "bold")
-			.attr('font-size', font_size + 4)
+			.attr('font-size', font_size + 4)*/
 	
 	}
 	
-	// TODO: change data for avatar
 	getMatrix()
 	{
 		let vis = this;
@@ -121,74 +140,6 @@ class Chord {
 
 		return matrix;
         
-		// vis.data.forEach(d => {
-        //     d.episodes = Array.from(d.episodes, ([episodeNum, characters]) => ({ episodeNum, characters}));
-        //     d.episodes.forEach(episode => {
-        //         episode.characters = Array.from(episode.characters, ([name, lines]) => ({ name, lines}));
-        //         episode.characters.forEach(character => {
-        //           let name = character.name.replace(/:/g,'');
-        //           character.lines.forEach(line => {
-        //             console.log(line)
-        //           })
-        //         })
-        //     })
-        // });
-
-		/*let charMat = Array(impChar.length).fill(null).map((i) => Array(impChar.length).fill(0));
-		var seasonMap = d3.group(vis.data, d => d.season);
-		var episodeMap;
-		var sceneMap;
-		var tempChar = [];
-		for (var i of seasonMap)
-		{
-			//console.log('season #' + i[0]);
-			episodeMap = d3.group(i[1], d => d.episode);
-			for(var ep of episodeMap)
-			{
-				//console.log('episode #' + ep[0]);
-				sceneMap = d3.group(ep[1], d => d.scene_count);
-				for(var s of sceneMap)
-				{
-					//console.log('scene #: ' + s[0]);
-					tempChar = [];
-					for(var l of s[1])
-					{
-						if(impChar.indexOf(l.speaker) != -1) tempChar.push(l.speaker);
-					}
-					tempChar = new Set(tempChar);
-					if(tempChar.has('doofenshmirtz') || tempChar.has('major monogram') || tempChar.has('carl')) tempChar.add('perry');
-					if(tempChar.has('phineas')) tempChar.add('ferb');
-					//console.log(tempChar);
-					
-					
-					for(var col of tempChar)
-					{
-						for(var row of tempChar)
-						{
-							//console.log(charMat[impChar.indexOf(row)][impChar.indexOf(col)]);
-							charMat[impChar.indexOf(row)][impChar.indexOf(col)] = charMat[impChar.indexOf(row)][impChar.indexOf(col)] + 1;
-							//console.log(impChar.indexOf(row) + '//' + impChar.indexOf(col));
-							//console.log(row + '//' + col);
-							//console.log(charMat[impChar.indexOf(row)][impChar.indexOf(col)]);
-						}
-					}
-				}
-			}
-		}
-		
-		console.log(charMat);
-		
-		for(var row = 0; row < charMat[0].length; row++)
-		{
-			for(var col = 0; col < charMat[0].length; col++)
-			{
-				if(charMat[row][col] < 75) charMat[row][col] = 0;
-				if(row == col) charMat[row][col] = 0;
-			}
-		}
-		
-		
-		return charMat;*/
 	}
 	
 	updateVis()
