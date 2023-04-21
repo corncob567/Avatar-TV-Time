@@ -3,6 +3,7 @@
     <head>
         <title>Avatar: The Last Airbender</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/tabulator_bootstrap5.min.css">
         <link rel="stylesheet" href="styles/styles.css">
     </head>
     <body>
@@ -45,6 +46,13 @@
                     <div id="wordCloud"></div>
                 </div>
             </div>
+
+            <div class="flex-container bg-light rounded" style="height: 500px; width: 500px; padding: 20px">
+                <div style="align-self: center"><span class="characterTable">Character selected: </span><span class="characterTableSelected"></span></div>
+                <div class="tableInnerContainer">
+                    <div id="episode_table"></div>
+                </div>
+            </div>
         </div>
 
         <footer class="flex-container footerBar">
@@ -61,11 +69,20 @@
 
         <div id="tooltip"></div>
         <div id="info-tooltip"></div>
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span id="btnCloseModal" class="close">&times;</span>
+                <div id="character_line_table"></div>
+            </div>
+        </div>
         
         <!-- Libraries and Misc -->
         <script src="js/d3.v6.min.js"></script>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/tabulator.min.js"></script>
 
         <!-- D3.cloud -->
         <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
@@ -74,5 +91,6 @@
         <script src="js/main.js"></script>
         <script src="js/barchart.js"></script>
         <script src="js/wordCloud.js"></script>
+        <script src="js/table.js"></script>
     </body>
 </html>
