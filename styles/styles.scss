@@ -215,6 +215,19 @@ button{
   }
 }
 
+.slice{
+  opacity: 0.3;
+  stroke-width: 2px;
+  &.selected{
+    stroke-width: 6px;
+    opacity: 0.4;
+  }
+}
+
+.sliceLabel{
+  pointer-events: none;
+}
+
 /* TOOLTIPS */
 #tooltip {
   position: absolute;

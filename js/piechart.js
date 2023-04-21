@@ -101,7 +101,7 @@ class Piechart {
             .innerRadius(0)
             .outerRadius(vis.radius);
         
-        vis.svg
+        let slices = vis.svg
             .selectAll('.slice')
             .data(data_ready)
             .join('path')
@@ -123,9 +123,15 @@ class Piechart {
                         return "brown";
                 }
              })
-            .attr("stroke", "black")
-            .style("stroke-width", "2px")
-            .style("opacity", 0.3);
+            .attr("stroke", "black");
+
+        vis.svg.selectAll('.slice').on("mouseover mouseleave", function(d){ 
+            if (!d3.select(this).classed("selected") ){
+                d3.select(this).classed("selected", true);
+            }else{
+                d3.select(this).classed("selected", false);
+            }
+        })
 
         let labels = vis.svg
             .selectAll('.sliceLabel')
