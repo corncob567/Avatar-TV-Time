@@ -6,6 +6,9 @@ let filterableVisualizations = [];
 let stop_words = [];
 let selectedCharacter = "any";
 let selectedSeason = "any";
+let modal = document.getElementById("myModal");
+span = document.getElementById("btnCloseModal");
+
 //-------------------------//
 d3.csv('/data/stop_words.csv', word => stop_words.push(word.words))
 stop_words.push("ill", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
@@ -110,4 +113,23 @@ function clearFilters(){
   leafletMap.drawnFeatures.clearLayers()
 	globalDataFilter = [];
 	filterData(resetBrush=true, fullReset=true);
+}
+
+/////////////////////////// Functions for Modal Browser window 
+function openModalBrowser(selectedData) {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  console.log("User clicked (x), close modal")
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  console.log("User clicked out, close modal")
+  if (event.target == modal) {
+  modal.style.display = "none";
+  }
 }
