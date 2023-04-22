@@ -156,13 +156,10 @@ class Barchart {
         .attr('x', 0)
         .attr('fill', d => vis.charColorScale(vis.yValue(d)));
 
-    console.log(vis.character_word_count)
     //Add word count to end
-    console.log(vis.relevantCharacterAppearances)
     vis.relevantCharacterAppearances.forEach(d =>{
       let text = vis.character_word_count.find(n => n.key === d.key).count
       //sy_snum.data = data.filter(d => planetFilter.includes(d.pl_name));
-      console.log(text)
       vis.chart.append('text')
         .attr('y', vis.yScale(vis.yValue(d))+23 )//vis.height + 10)
         .attr('x', vis.xScale(vis.xValue(d))+5 )//vis.width/2)
