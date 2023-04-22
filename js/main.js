@@ -6,6 +6,8 @@ let filterableVisualizations = [];
 let stop_words = [];
 let selectedCharacter = "any";
 let selectedSeason = "any";
+let relevant_char_data = [];
+let main_characters = ["Aang", "Katara", "Sokka", "Toph", "Zuko", "Azula", "Iroh", "Ozai", "Mai", "Ty Lee", "Jet"]
 let modal = document.getElementById("myModal");
 span = document.getElementById("btnCloseModal");
 
@@ -20,8 +22,12 @@ d3.csv("/data/avatar_transcripts.csv")
       d.filtered = false;
       d.season = parseInt(d.season);
       d.episode = parseInt(d.episode);
+      if (main_characters.includes(d.character)) {
+        relevant_char_data.push(d)
+      }
     })
-
+    relevant_char_data.sort((a,b) => b.character - a.character)
+    console.log(relevant_char_data)
     console.log('Data loading complete. Work with dataset.');
 
     // Texts for info tool
@@ -42,8 +48,44 @@ d3.csv("/data/avatar_transcripts.csv")
         .text(d.key));
     })
 
-    // console.log(character_in_episodes);
-    // console.log(charactersWithLines);
+    //gets number of words per episode 
+    let characters_words_per_episode_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
+    let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
+    //([season, [ep, [character, count]]]) => ({ season, ep, val: {character, count}})
+    //console.log(characters_words_per_episode)
+
+    let charactersWithLines = [];
+    let chordCharLines = [];
+
+    //gets list of characters who were in each episode
+    let character_in_episodes_map = d3.group(_data, d => d.season, d => d.episode, d=>d.character);
+    let character_in_episodes = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
+    character_in_episodes.forEach(i => {
+      i.episodes = Array.from(i.episodes, ([episodeNum, characters]) => ({ episodeNum, characters}));
+      i.episodes.forEach(episode => {
+        episode.characters = Array.from(episode.characters, ([name, lines]) => ({ name, lines}));
+        episode.characters.forEach(character => {
+          let name = character.name.replace(/:/g,'');
+          if(!name.includes(" and ")){
+            if (!charactersWithLines[name]) {
+              charactersWithLines[name] = 1;
+            }
+            else{
+              charactersWithLines[name] += 1;
+            }
+          }
+          if (main_characters.includes(name)) {
+             chordCharLines.push(character.lines);
+          }
+        })
+      });
+    });
+    //console.log(character_in_episodes);
+    //console.log(charactersWithLines);
+
+    let chord_char_lines = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
+    console.log(chord_char_lines)
+
     console.log("Populating table with values")
     table = new Table({
         'containerWidth': 800,
@@ -55,6 +97,9 @@ d3.csv("/data/avatar_transcripts.csv")
     wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters)
     //descriptionWordCloud.updateVis()
     filterableVisualizations = [descriptionWordCloud];
+
+    interactionDiagram = new Chord({parentElement: "#chord"}, relevant_char_data, main_characters);
+
     filterData(); // initializes filteredData array (to show count on refresh)
     })
 .catch(error => {
