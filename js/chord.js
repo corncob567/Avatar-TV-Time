@@ -7,8 +7,8 @@ class Chord {
 	constructor(_config, _data, _importantChar) {
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: _config.containerWidth || 700,
-      containerHeight: _config.containerHeight || 700,
+      containerWidth: _config.containerWidth || 600,
+      containerHeight: _config.containerHeight || 600,
       margin: { top: 30, bottom: 10, right: 10, left: 10 }
     }
 
@@ -22,7 +22,12 @@ class Chord {
 	{
 		let vis = this;
 		
-		vis.colors = ["#8dd3c7","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"];
+		//vis.colors = ["#8dd3c7","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"];
+        //vis.colors = ['#543005','#8c510a','#bf812d','#dfc27d','#f6e8c3','#f5f5f5','#c7eae5','#80cdc1','#35978f','#01665e','#003c30'];
+        vis.colors = ['#003c30','#01665e','#35978f','#80cdc1','#c7eae5','#c7eae5','#f6e8c3','#dfc27d','#bf812d','#8c510a','#543005'];
+        //vis.colors = ['#a50026','#d73027','#f46d43','#fdae61','#fee090','#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4','#313695'];
+        //vis.colors = ['#9e0142','#d53e4f','#f46d43','#fdae61','#fee08b','#ffffbf','#e6f598','#abdda4','#66c2a5','#3288bd','#5e4fa2'];
+        
 		
 		vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
 	  	vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
@@ -55,7 +60,7 @@ class Chord {
                 .attr("text-anchor", d => {return ((d.angle > Math.PI) ? "end" : null)})
                 .attr("transform", d => {
                         return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-                        + "translate(" + (200 + 55) + ")"
+                        + "translate(" + (200 + 35) + ")"
                         + (d.angle > Math.PI ? "rotate(180)" : "");
                 })
                 .style("fill", "black")

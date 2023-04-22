@@ -7,65 +7,100 @@
         <link rel="stylesheet" href="styles/styles.css">
     </head>
     <body>
-        <div class="data-info bg-light rounded">
-            <h1>Avatar: The Last Airbender</h1>
-            <p>The dashboard below shows information about the transcript of the "Avatar: The Last Airbender" Nickelodeon TV series. <br/>Explore the data using the visualizations below.</p>
-        </div>
-
         <div class="flex-container">
-            <div class="flex-container bg-light rounded" style="height: fit-content">
-                <svg id="top_characters_barchart_xaxis" style="width: 750px; height: 50px"></svg>
-                <div id="scroll_barchart" style="height: 400px; overflow-y: auto;">
-                    <svg id="top_characters_barchart"></svg>
-                </div>
+            <div class="icons-container bg-light rounded">
+                <img src="/assets/icons/Aang.jpg" class="icon">
+                <img src="/assets/icons/Katara.jpg" class="icon">
+                <img src="/assets/icons/Sokka.jpg" class="icon">
+                <img src="/assets/icons/Toph.jpg" class="icon">
+                <img src="/assets/icons/Zuko.jpg" class="icon">
+                <img src="/assets/icons/Azula.jpg" class="icon">
+                <img src="/assets/icons/Iroh.jpg" class="icon">
+                <img src="/assets/icons/Ozai.jpg" class="icon">
+                <img src="/assets/icons/Mai.jpg" class="icon">
+                <img src="/assets/icons/Ty_Lee.jpg" class="icon">
+                <img src="/assets/icons/Jet.jpg" class="icon">
             </div>
 
-            <div class="mapContainer flex-container bg-light rounded">
-                <div class="mapHeader">
-                    <div class="mapTitle">Most Frequent Words</div>
-                    <!--div class="info-icon-container" onclick="infoIconClicked()">
-                        <img src="styles/info-logo.png" class="map-info-tool">
-                        <img src="styles/info-logo-blue.png" class="map-info-tool-blue">
-                    </div-->
+            <div class="main-content">
+                <div class="data-info bg-light rounded">
+                    <h1>Avatar: The Last Airbender</h1>
+                    <p>The dashboard below shows information about the transcript of the "Avatar: The Last Airbender" Nickelodeon TV series. <br/>Explore the data using the visualizations below.</p>
                 </div>
-                <div class="cloudInnerContainer">
-                    <div class="cloudFilterLegend">
-                        <div class="cloudFilter">
-                            <!-- Dropdown for color option of map -->
-                            <label for="mapMarkerColor">Choose a character:</label>
-                            <select name="selectedCharacter" id="selectedCharacter" onchange="updateSelectedCharacter(this.value)">
-                                <option value="any">Any</option>
-                            </select>
-                            <!-- Dropdown for background of map -->
-                            <label for="mapBackgroundToggleLabel">Choose a season:</label>
-                            <select name="selectedSeason" id="selectedSeason" onchange="updateSelectedSeason(this.value)">
-                                <option value="any">Any</option>
-                                <option value="1">Book 1: Water</option>
-                                <option value="2">Book 2: Earth</option>
-                                <option value="3">Book 3: Fire</option>
-                            </select>
+
+                <div class="flex-container">
+
+                    <div class="mapContainer flex-container bg-light rounded">
+                        <!--div class="mapHeader">
+                            <div class="mapTitle">Most Frequent Words</div>
+                            <div class="info-icon-container" onclick="infoIconClicked()">
+                                <img src="styles/info-logo.png" class="map-info-tool">
+                                <img src="styles/info-logo-blue.png" class="map-info-tool-blue">
+                            </div>
+                        </div-->
+                        <span class="chart-title">Word Frequency</span>
+                        <div class="cloudInnerContainer">
+                            <div class="cloudFilterLegend">
+                                <div class="cloudFilter">
+                                    <!-- Dropdown for color option of map -->
+                                    <div class="dropdown-wrapper">
+                                    <label for="mapMarkerColor">Choose a character:</label>
+                                    <select name="selectedCharacter" id="selectedCharacter" onchange="updateSelectedCharacter(this.value)">
+                                        <option value="any">Any</option>
+                                    </select>
+                                    </div>
+
+                                    <!-- Dropdown for background of map -->
+                                    <div class="dropdown-wrapper">
+                                    <label for="mapBackgroundToggleLabel">Choose a season:</label>
+                                    <select name="selectedSeason" id="selectedSeason" onchange="updateSelectedSeason(this.value)">
+                                        <option value="any">Any</option>
+                                        <option value="1">Book 1: Water</option>
+                                        <option value="2">Book 2: Earth</option>
+                                        <option value="3">Book 3: Fire</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-cloud-wrapper">
+                            <!--div style="align-self: center">
+                                <span class="characterTable">Character selected: </span>
+                                <span class="characterTableSelected"></span>
+                            </div-->
+                            <div class="tableInnerContainer">
+                                <div id="episode_table"></div>
+                            </div>
+                            <div id="wordCloud"></div>
+                            </div>
                         </div>
                     </div>
-                    <div id="wordCloud"></div>
-                </div>
-            </div>
 
-            <div class="chordDiagramContainer flex-container bg-light rounded">
-                <svg id="chord"></svg>
-            </div>
+                    <div class="chordDiagramContainer flex-container bg-light rounded" style="flex-direction: column;">
+                        <span class="chart-title">Interaction Diagram</span>
+                        <svg id="chord"></svg>
+                    </div>
 
-            <div class="flex-container bg-light rounded" style="height: 500px; width: 500px; padding: 20px">
-                <div style="align-self: center">
-                    <span class="characterTable">Character selected: </span>
-                    <span class="characterTableSelected"></span>
+                    <div class="flex-container bg-light rounded barchart-container" style="height: fit-content">
+                        <span class="chart-title">Bar Chart</span>
+                        <svg id="top_characters_barchart_xaxis" style="width: 750px; height: 50px"></svg>
+                        <div id="scroll_barchart" style="height: 400px; overflow-y: auto;">
+                            <svg id="top_characters_barchart"></svg>
+                        </div>
+                    </div>
                 </div>
-                <div class="tableInnerContainer">
-                    <div id="episode_table"></div>
+
+                <div id="tooltip"></div>
+                <div id="info-tooltip"></div>
+                <!-- Modal -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span id="btnCloseModal" class="close">&times;</span>
+                        <div id="character_line_table"></div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        
 
         <footer class="flex-container footerBar">
             <div style="align-self: center"><span class="dataCountLabel">Lines In Use:</span><span class="dataCount">0</span></div>
@@ -78,18 +113,6 @@
                     | Data Visualization performed using D3</span>
             </div>
         </footer>
-
-        <div id="tooltip"></div>
-        <div id="info-tooltip"></div>
-        <!-- Modal -->
-        <div id="myModal" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span id="btnCloseModal" class="close">&times;</span>
-                <div id="character_line_table"></div>
-            </div>
-        </div>
-        
         <!-- Libraries and Misc -->
         <script src="js/d3.v6.min.js"></script>
         <script src="js/jquery.min.js"></script>

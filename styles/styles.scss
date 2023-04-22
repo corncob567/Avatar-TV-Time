@@ -2,10 +2,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
 
 body {
-  background: #EEF2FF;
+  //background: #EEF2FF;
+  //background: url("/assets/wallpaper.jpg");
+  //background: #3c3c44;
+  background: url("/assets/wallpaper2.jpg");
   margin: 0;
   min-height: 100%;
   font-family: 'Varela Round', sans-serif;
+}
+
+.main-content {
+  width: 90%;
+}
+
+.icons-container {
+  width: 70px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.chart-title {
+  font-size: 25px;
+  font-weight: 700;
+  align-self: center;
+  padding-top: 20px;
 }
 
 .data-info{
@@ -20,7 +50,8 @@ body {
 }
 
 .bg-light {
-  background-color: white!important;
+  //background-color: white!important;
+  background-color: #fff3d0!important;
 }
 
 .flex-container{
@@ -70,7 +101,9 @@ button{
   width: 100%;
   z-index: 999999;
   bottom: 0px;
-  background-color: #d3ddf5;
+  //background-color: #d3ddf5;
+  background-color: #5c3026;
+  color: #fff3d0;
   span{
     text-align: center;
     margin: 10px 5px;
@@ -96,6 +129,10 @@ button{
     background-color: #f44336;
     color: white;
   }
+}
+
+.barchart-container {
+  flex-direction: column;
 }
 
 .mapContainer{
@@ -140,13 +177,19 @@ button{
   }
   .cloudFilter {
     display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+    column-gap: 10px;
     margin-bottom: 30px;
-    width: 280px;
+  }
+  .dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .table-cloud-wrapper {
+    display: flex;
   }
   .cloudInnerContainer {
     display: flex;
+    flex-direction: column;
     margin: 20px;
   }
 }
