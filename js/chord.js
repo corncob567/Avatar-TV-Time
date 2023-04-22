@@ -15,7 +15,6 @@ class Chord {
     this.data = _data;
     this.importantChar = _importantChar;
 
-    // Call a class function
     this.initVis();
 	}
 	
@@ -40,50 +39,47 @@ class Chord {
 			.padAngle(0.05)
 			.sortSubgroups(d3.descending)
 			(matrix);
-			
+		
+        // Draw Text Labels
 		vis.svg
 			.datum(vis.chordArc)
 			.append('g')
             .attr("transform", `translate(${vis.config.containerWidth/2},${ vis.config.containerHeight/2})`)
-            //.attr("class", d => {return "group " + vis.importantChar[d.index];})
 			.selectAll('g')
 			.data(d => d.groups)
-            //console.log(d => d.groups)
-			.join('path')
-                .attr("class", d => {return "group " + vis.importantChar[d.index];})
-                .attr("id", d => {return "#group" + vis.importantChar[d.index];})
-                .style("fill", d => vis.colors[d.index])
-				.style("stroke", "black")
-                .style("opacity", "0.5")
-				.attr("d", d3.arc()
-				  .innerRadius(300)
-				  .outerRadius(320)
-				)
-            //.append("g")
-            .append('text')
-                /*.each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
+            .join('text')
+                .each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
                 .attr("x", "5")
                 .attr("dy", ".35em")
                 .attr("class", "titles")
                 .attr("text-anchor", d => {return ((d.angle > Math.PI) ? "end" : null)})
-                //.attr("transform", `translate(${vis.config.containerWidth/2},${ vis.config.containerHeight/2})`)
-                /*.attr("transform", d => {
+                .attr("transform", d => {
                         return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
-                        + "translate(" + (300 + 55) + ")"
+                        + "translate(" + (200 + 55) + ")"
                         + (d.angle > Math.PI ? "rotate(180)" : "");
                 })
                 .style("fill", "black")
-                .text(d => vis.importantChar[d.index]);*/
-                .attr("class", "titles")
-                .attr("x", 6)
-                .attr("dy", d => { return (d.endAngle > 90*Math.PI/180 & d.startAngle < 270*Math.PI/180 ? 25 : -16); })
-                .append("textPath")
-                    .attr("startOffset","50%")
-                    .style("text-anchor","middle")
-                    .style("fill", "black")
-                    .attr("xlink:href", d => {return "#group"+vis.importantChar[d.index];})
-                    .text(d =>{ return vis.importantChar[d.index]; });
-				
+                .text(d => vis.importantChar[d.index])
+		
+        // Draw Group Arcs
+        vis.svg
+            .datum(vis.chordArc)
+            .append('g')
+            .attr("transform", `translate(${vis.config.containerWidth/2},${ vis.config.containerHeight/2})`)
+            .selectAll('g')
+            .data(d => d.groups)
+            .join('path')
+                .attr("class", d => {return "group " + vis.importantChar[d.index];})
+                .attr("id", d => {return "#group" + vis.importantChar[d.index];})
+                .style("fill", d => vis.colors[d.index])
+				.style("stroke", "grey")
+                .style("opacity", "0.5")
+				.attr("d", d3.arc()
+				  .innerRadius(200)
+				  .outerRadius(220)
+				)
+
+        // Draw Chord Arcs
 		vis.svg
 		  .datum(vis.chordArc)
 		  .append("g")
@@ -92,15 +88,16 @@ class Chord {
 		  .data(d => d)
 		  .join("path")
 			.attr("d", d3.ribbon()
-			  .radius(300)
+			  .radius(200)
 			)
 			.style("fill", d => vis.colors[d.source.index % 11])
-			.style("stroke", "black")
+			.style("stroke", "grey")
 		  .on('mouseover', (event, d) => { console.log(d);
 							d3.select('#tooltip')
 							  .style('display', 'block')
 							  .style('left', (event.pageX + 10) + 'px')   
 							  .style('top', (event.pageY + 10) + 'px')
+                              .style('font-size', '15px')
 							  .html(`${vis.importantChar[d.source.index]} referenced ${vis.importantChar[d.target.index]} ${d.source.value} times
 								  `);}) 
 		   .on('mouseleave', () => {
@@ -161,10 +158,10 @@ class Chord {
 			.join('g')
 			.join('path')
 				.style("fill", "grey")
-				.style("stroke", "black")
+				.style("stroke", "grey")
 				.attr("d", d3.arc()
-				  .innerRadius(180)
-				  .outerRadius(230)
+				  .innerRadius(200)
+				  .outerRadius(220)
 				);
 				
 		vis.svg
@@ -178,10 +175,7 @@ class Chord {
 			  .radius(200)
 			)
 			.style("fill", "#69b3a2")
-			.style("stroke", "black");
+			.style("stroke", "grey");
 		
 	}
-	
-	
-	
 }
