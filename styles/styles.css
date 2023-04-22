@@ -27,6 +27,9 @@ body {
   height: 50px;
   border-radius: 50%;
 }
+.icon:hover {
+  border: 2px solid #5c3026;
+}
 
 .chart-title {
   font-size: 25px;
@@ -317,4 +320,16 @@ button {
   display: none;
 }
 
-/* END TOOLTIPS *//*# sourceMappingURL=styles.css.map */
+/* END TOOLTIPS */
+.tabulator, .tabulator-col, .tabulator-row-even {
+  background-color: #fff3d0 !important;
+}
+
+.tabulator-row-odd {
+  background-color: #d3c7a3 !important;
+}
+
+.tabulator-header {
+  border-top: 1px solid #5c3026 !important;
+  border-bottom: 2px solid #5c3026 !important;
+}/*# sourceMappingURL=styles.css.map */
