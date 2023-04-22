@@ -12,8 +12,8 @@ class Barchart {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 750,
-      containerHeight: _config.containerHeight || 750,
-      margin: _config.margin || {top: 10, right: 20, bottom: 20, left: 100}
+      containerHeight: _config.containerHeight || 1800,
+      margin: _config.margin || {top: 20, right: 10, bottom: 50, left: 110}
     }
     this.data = _data;
     this.xval = _xval;
@@ -62,9 +62,9 @@ class Barchart {
         .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
 
     // Append empty x-axis group and move it to the bottom of the chart
-    vis.xAxisG = vis.chart.append('g')
+    vis.xAxisG = d3.select("#top_characters_barchart_xaxis").append('g')
         .attr('class', 'axis x-axis')
-        .attr('transform', `translate(0,${vis.height})`);
+        .attr('transform', `translate(${vis.config.margin.left},30)`);
     
     // Append y-axis group 
     vis.yAxisG = vis.chart.append('g')
