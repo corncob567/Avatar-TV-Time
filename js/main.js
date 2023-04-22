@@ -86,13 +86,6 @@ d3.csv("/data/avatar_transcripts.csv")
     let chord_char_lines = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
     console.log(chord_char_lines)
 
-    let character_appear_count = new Barchart({
-      parentElement: '#top_characters_barchart',
-      containerWidth: 500,
-      containerHeight: 500
-      }, character_word_count, "key", "Top Characters", "X", "Y"); 
-    // console.log(character_in_episodes);
-    // console.log(charactersWithLines);
     console.log("Populating table with values")
     table = new Table({
         'containerWidth': 800,
