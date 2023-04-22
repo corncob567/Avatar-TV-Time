@@ -149,6 +149,11 @@ button {
   margin: 20px;
 }
 
+.tableInnerContainer {
+  display: flex;
+  margin: 20px;
+}
+
 #heatTimeDiv rect:hover {
   stroke: #000000;
   stroke-width: 2px;
@@ -209,6 +214,30 @@ button {
   stroke-width: 3px;
   -webkit-clip-path: url(#clip);
           clip-path: url(#clip);
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; /*15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 800px;
+  height: 550px;
 }
 
 /* TOOLTIPS */

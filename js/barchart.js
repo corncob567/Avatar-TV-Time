@@ -5,19 +5,21 @@ class Barchart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data, _xval, _yval) {
+  constructor(_config, _data, _xval, _yval, _relevant_characters) {
     // Configuration object with defaults
     // Important: depending on your vis and the type of interactivity you need
     // you might want to use getter and setter methods for individual attributes
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: _config.containerWidth || 500,
-      containerHeight: _config.containerHeight || 140,
-      margin: _config.margin || {top: 5, right: 5, bottom: 20, left: 50}
+      containerWidth: _config.containerWidth || 750,
+      containerHeight: _config.containerHeight || 750,
+      margin: _config.margin || {top: 10, right: 20, bottom: 20, left: 100}
     }
     this.data = _data;
     this.xval = _xval;
     this.yval = _yval;
+    this.relevant_characters = _relevant_characters
+
     this.initVis();
   }
   
@@ -70,6 +72,7 @@ class Barchart {
 
     // Append titles, legends and other static elements here
     // ...
+    vis.updateVis()
   }
 
   /**
@@ -80,13 +83,49 @@ class Barchart {
   updateVis() {
     let vis = this;
 
-    // Specificy x- and y-accessor functions
-    vis.xValue = d => d.sales;
-    vis.yValue = d => d.month;
+    // character word count to be written on bar
+    vis.character_words_map = d3.rollups(vis.data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.character);
+    vis.character_word_count = Array.from(vis.character_words_map, ([key, count]) => ({ key, count }));
+    vis.character_word_count.sort((a,b) => b.count - a.count)
 
+    // size of bars based on characters with lines 
+    vis.characterAppearances = []
+    let character_in_episodes_map = d3.group(vis.data, d => d.season, d => d.episode, d=>d.character);
+    let character_in_episodes = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
+    character_in_episodes.forEach(i => {
+      i.episodes = Array.from(i.episodes, ([episodeNum, characters]) => ({ episodeNum, characters}));
+      i.episodes.forEach(episode => {
+        episode.characters = Array.from(episode.characters, ([name, lines]) => ({ name, lines}));
+        episode.characters.forEach(character => {
+          let name = character.name.replace(/:/g,'');
+          if(!name.includes(" and ")){
+            if (!vis.characterAppearances[name]) {
+              vis.characterAppearances[name] = 1;
+            }
+            else{
+            vis.characterAppearances[name] += 1;
+            }
+          }
+        })
+      });
+    });
+
+    vis.relevantCharacterAppearances = {}
+    vis.relevant_characters.forEach(d => {
+      if (d.key in vis.characterAppearances){
+        vis.relevantCharacterAppearances[d.key] = vis.characterAppearances[d.key]
+      }
+    })
+
+    vis.relevantCharacterAppearances = Array.from(Object.entries(vis.relevantCharacterAppearances), ([key, count]) => ({ key, count }))
+    vis.relevantCharacterAppearances.sort((a, b) => b.count - a.count)
+    // Specificy x- and y-accessor functions
+    vis.xValue = d => d.count;
+    vis.yValue = d => d.key;
+ 
     // Set the scale input domains
-    vis.xScale.domain([0, d3.max(vis.data, vis.xValue)]);
-    vis.yScale.domain(vis.data.map(vis.yValue));
+    vis.xScale.domain([0, d3.max(vis.relevantCharacterAppearances, vis.xValue)]);
+    vis.yScale.domain(vis.relevantCharacterAppearances.map(vis.yValue));
 
     vis.renderVis();
   }
@@ -100,8 +139,8 @@ class Barchart {
     let vis = this;
 
     // Add rectangles
-    vis.chart.selectAll('.bar')
-        .data(vis.data)
+    let bars = vis.chart.selectAll('.bar')
+        .data(vis.relevantCharacterAppearances)
         .enter()
       .append('rect')
         .attr('class', 'bar')
@@ -109,7 +148,9 @@ class Barchart {
         .attr('height', vis.yScale.bandwidth())
         .attr('y', d => vis.yScale(vis.yValue(d)))
         .attr('x', 0);
-    
+
+
+
     // Update the axes because the underlying scales might have changed
     vis.xAxisG.call(vis.xAxis);
     vis.yAxisG.call(vis.yAxis);
