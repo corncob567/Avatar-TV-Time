@@ -106,7 +106,7 @@ class WordCloud{
           .join("text")
             .style("font-size", function(d) { return d.size; })
             .style("font-family", "Varela")
-            .style("fill", "#77aac6")
+            .style("fill", "#5c3026")
             .attr("text-anchor", "middle")
             .attr("transform", function(d) {
               return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";

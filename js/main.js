@@ -1,11 +1,16 @@
 // GLOBAL VARIABLES
 let data;
-let descriptionWordCloud, pieChart;
+let descriptionWordCloud, pieChart, table;
 let globalDataFilter = [];
 let filterableVisualizations = [];
 let stop_words = [];
 let selectedCharacter = "any";
 let selectedSeason = "any";
+let relevant_char_data = [];
+let main_characters = ["Aang", "Katara", "Sokka", "Toph", "Zuko", "Azula", "Iroh", "Ozai", "Mai", "Ty Lee", "Jet"]
+let modal = document.getElementById("myModal");
+span = document.getElementById("btnCloseModal");
+
 //-------------------------//
 d3.csv('/data/stop_words.csv', word => stop_words.push(word.words))
 stop_words.push("ill", "weve", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
@@ -19,8 +24,12 @@ d3.csv("/data/avatar_transcripts.csv")
       d.episode = parseInt(d.episode);
       d.benderType = getBenderType(d);
       // TODO: Consolidate similar names, "Young Azula" to just "Azula", etc.
+      if (main_characters.includes(d.character)) {
+        relevant_char_data.push(d)
+      }
     })
-
+    relevant_char_data.sort((a,b) => b.character - a.character)
+    console.log(relevant_char_data)
     console.log('Data loading complete. Work with dataset.');
 
     // Texts for info tool
@@ -46,9 +55,10 @@ d3.csv("/data/avatar_transcripts.csv")
     let characters_words_per_episode_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
     let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
     //([season, [ep, [character, count]]]) => ({ season, ep, val: {character, count}})
-    console.log(characters_words_per_episode);
+    //console.log(characters_words_per_episode);
 
     let charactersWithLines = [];
+    let chordCharLines = [];
 
     //gets list of characters who were in each episode
     let character_in_episodes_map = d3.group(_data, d => d.season, d => d.episode, d=>d.character);
@@ -67,17 +77,30 @@ d3.csv("/data/avatar_transcripts.csv")
               charactersWithLines[name] += 1;
             }
           }
+          if (main_characters.includes(name)) {
+             chordCharLines.push(character.lines);
+          }
         })
       });
     });
-    console.log(character_in_episodes);
-    console.log(charactersWithLines);
+    //console.log(character_in_episodes);
+    //console.log(charactersWithLines);
 
-    let character_appear_count = new Barchart({
-      parentElement: '#top_characters_barchart',
+    let chord_char_lines = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
+    console.log(chord_char_lines)
+
+    console.log("Populating table with values")
+    table = new Table({
+        'containerWidth': 800,
+        'containerHeight': 400,
+    }, data, "Katara"); //update with char
+    table.updateVis();
+
+    pieChart = new Piechart({
+      parentElement: '#pieChart',
       containerWidth: 500,
-      containerHeight: 500
-      }, character_word_count, "key", "Top Characters", "X", "Y");
+      containerHeight: 600,
+      }, data, "benderType", "Lines by Bending Discipline", pieChartText);
 
     pieChart = new Piechart({
       parentElement: '#pieChart',
@@ -86,8 +109,12 @@ d3.csv("/data/avatar_transcripts.csv")
       }, data, "benderType", "Lines by Bending Discipline", pieChartText);
 
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
+    wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters)
     //descriptionWordCloud.updateVis()
     filterableVisualizations = [descriptionWordCloud, pieChart];
+
+    interactionDiagram = new Chord({parentElement: "#chord"}, relevant_char_data, main_characters);
+
     filterData(); // initializes filteredData array (to show count on refresh)
     })
 .catch(error => {
@@ -98,6 +125,8 @@ function updateSelectedCharacter(newCharacterSelection){
   selectedCharacter = newCharacterSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
   pieChart.updateVis(selectedCharacter, selectedSeason);
+  d3.select(".characterTableSelected").text(newCharacterSelection)
+  table.updateVis();
 }
 
 function updateSelectedSeason(newSeasonSelection){
@@ -168,4 +197,23 @@ function filterData(resetBrush = false, fullReset = false) {
 function clearFilters(){
 	globalDataFilter = [];
 	filterData(resetBrush=true, fullReset=true);
+}
+
+/////////////////////////// Functions for Modal Browser window 
+function openModalBrowser(selectedData) {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  console.log("User clicked (x), close modal")
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  console.log("User clicked out, close modal")
+  if (event.target == modal) {
+  modal.style.display = "none";
+  }
 }
