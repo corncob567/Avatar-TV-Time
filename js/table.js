@@ -103,6 +103,7 @@ class Table {
             }
         })
 
+
         //update the BAN (by character)
         if (selectedCharacter != "any"){
             let phraseText = selectedCharacter + "'s key phrase: ";
@@ -123,12 +124,11 @@ class Table {
                     phraseText = phraseText + "I want the Avatar..."
                     break;
                 
-
             }
-            
+            d3.select("#phrase").selectAll('text').remove()
             d3.select('#phrase')
-            .append('text')
-            .text(phraseText)
+                .append('text')
+                .text(phraseText);
         }
 
     }
