@@ -5,7 +5,7 @@ class Barchart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data, _xval, _yval, _relevant_characters) {
+  constructor(_config, _data, _xval, _yval, _relevant_characters, _infoText) {
     // Configuration object with defaults
     // Important: depending on your vis and the type of interactivity you need
     // you might want to use getter and setter methods for individual attributes
@@ -13,7 +13,8 @@ class Barchart {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 750,
       containerHeight: _config.containerHeight || 1800,
-      margin: _config.margin || {top: 20, right: 80, bottom: 50, left: 130}
+      margin: _config.margin || {top: 20, right: 80, bottom: 50, left: 130},
+      infoText: _infoText
     }
     this.data = _data;
     this.xval = _xval;
@@ -76,8 +77,30 @@ class Barchart {
     vis.yAxisG = vis.chart.append('g')
         .attr('class', 'axis y-axis');
 
-    // Append titles, legends and other static elements here
-    // ...
+    // Info Logo
+    vis.xAxisG
+    .append("svg:image")
+    .attr("xlink:href", "../assets/info-logo.png")
+    .attr('class', 'info-logo')
+    .attr("transform", "translate(" + (570) + " ," + (0) + ")")
+    .on("mouseover mouseleave", function(d){ 
+        if (!d3.select('#info-tooltip').classed("selected") ){
+            d3.select(this).attr("xlink:href", "../assets/info-logo-blue.png");
+            d3.select('#info-tooltip').classed("selected", true)
+            .style('display', 'block')
+            .style('left', (event.pageX + 5) + 'px')   
+            .style('top', (event.pageY) + 'px')
+            .html(`
+                <div class="tooltip-description">${vis.config.infoText}</div>
+                
+            `);
+        }else{
+            d3.select(this).attr("xlink:href", "../assets/info-logo.png");
+            d3.select('#info-tooltip').classed("selected", false);
+            d3.select('#info-tooltip').style('display', 'none');
+        }
+    })
+
     vis.updateVis()
   }
 

@@ -12,7 +12,7 @@
                 <div class="dropdown">
                     <button onclick="selectSeason()" class="dropbtn">Season</button>
                     <div id="selectSeason" class="dropdown-content">
-                    <a onclick="updateSelectedSeason('any')">Any</a>
+                    <a onclick="updateSelectedSeason('any')">All Seasons</a>
                       <a onclick="updateSelectedSeason('1')">Book 1: Water</a>
                       <a onclick="updateSelectedSeason('2')">Book 2: Earth</a>
                       <a onclick="updateSelectedSeason('3')">Book 3: Fire</a>
@@ -55,7 +55,7 @@
                 <div class="data-info bg-light rounded">
                     <img src="assets\Avatar_Logo.png">
                     <p>The dashboard below shows information about the transcript of the "Avatar: The Last Airbender" Nickelodeon TV series.</p>
-                    <b>Selected Season: </b><span id="currentSeason">Any</span>
+                    <b>Selected Season: </b><span id="currentSeason">All Seasons</span>
                     <br/>
                     <b>Selected Character: </b><span id="currentCharacter">Any</span>
                 </div>
@@ -117,7 +117,6 @@
         </div>
 
         <footer class="flex-container footerBar">
-            <div style="align-self: center"><span class="dataCountLabel">Lines In Use:</span><span class="dataCount">0</span></div>
             <button onClick='clearFilters()' type='button' class="clearFiltersButton">Clear Filters</button>
             <div style="text-align-last: end">
                 <div class="pageinfo-text">

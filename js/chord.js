@@ -4,12 +4,13 @@ class Chord {
      * @param {Object}
      * @param {Array}
     */
-	constructor(_config, _data, _importantChar) {
+	constructor(_config, _data, _importantChar, _infoText) {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 600,
       containerHeight: _config.containerHeight || 600,
-      margin: { top: 30, bottom: 10, right: 10, left: 10 }
+      margin: { top: 30, bottom: 10, right: 10, left: 10 },
+	  infoText: _infoText
     }
 
     this.data = _data;
@@ -109,18 +110,29 @@ class Chord {
 			  d3.select('#tooltip').style('display', 'none');
 			});
 
-		let font_size = 12;
-		// Title label
-		/*vis.svg.append("g")
-			.attr('transform', 'translate(' + (vis.config.containerWidth/2 - vis.config.margin.right) + ', ' + (font_size + 4) + ')')
-			.append('text')
-			.attr('text-anchor', 'middle')
-			.text(vis.config.title)
-			// These can be replaced by style if necessary
-			//.attr('font-family', 'sans-serif')
-			.attr("font-weight", "bold")
-			.attr('font-size', font_size + 4)*/
-	
+		// Info Logo
+        vis.svg
+        .append("svg:image")
+        .attr("xlink:href", "../assets/info-logo.png")
+        .attr('class', 'info-logo')
+        .attr("transform", "translate(" + (500) + " ," + (10) + ")")
+        .on("mouseover mouseleave", function(d){ 
+            if (!d3.select('#info-tooltip').classed("selected") ){
+                d3.select(this).attr("xlink:href", "../assets/info-logo-blue.png");
+                d3.select('#info-tooltip').classed("selected", true)
+                .style('display', 'block')
+                .style('left', (event.pageX + 5) + 'px')   
+                .style('top', (event.pageY) + 'px')
+                .html(`
+                    <div class="tooltip-description">${vis.config.infoText}</div>
+                    
+                `);
+            }else{
+                d3.select(this).attr("xlink:href", "../assets/info-logo.png");
+                d3.select('#info-tooltip').classed("selected", false);
+                d3.select('#info-tooltip').style('display', 'none');
+            }
+        })
 	}
 	
 	getMatrix()

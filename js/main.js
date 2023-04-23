@@ -105,8 +105,8 @@ d3.csv("/data/avatar_transcripts.csv")
       }, data, "benderType", "Lines by Bending Discipline", pieChartText);
 
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
-    wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters)
-    interactionDiagram = new Chord({parentElement: "#chord"}, relevant_char_data, main_characters);
+    wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters, barChartText)
+    interactionDiagram = new Chord({parentElement: "#chord"}, relevant_char_data, main_characters, chordText);
     
     filterableVisualizations = [descriptionWordCloud, pieChart];
     filterData(); // initializes filteredData array (to show count on refresh)
@@ -128,15 +128,20 @@ function updateSelectedSeason(newSeasonSelection){
   selectedSeason = newSeasonSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
   pieChart.updateVis(selectedCharacter, selectedSeason);
+  console.log(newSeasonSelection)
   switch(newSeasonSelection){
     case "any":
       document.getElementById("currentSeason").textContent = "All Seasons";
+      break;
     case "1":
       document.getElementById("currentSeason").textContent = "Book 1 - Water";
+      break;
     case "2":
       document.getElementById("currentSeason").textContent = "Book 2 - Earth";
+      break;
     case "3":
       document.getElementById("currentSeason").textContent = "Book 3 - Fire";
+      break;
   }
 }
 
@@ -193,7 +198,6 @@ function filterData(resetBrush = false, fullReset = false) {
 			v.data = filteredData;
 		})
 	}
-	d3.select(".dataCount").text(filteredData.filter(d => !d.filtered).length + " / " + data.length)
 	filterableVisualizations.forEach(v => {
 		v.updateVis(resetBrush);
 	})

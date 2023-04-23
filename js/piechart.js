@@ -30,50 +30,50 @@ class Piechart {
      * specifications to the updateVis() function.
      */
     initVis() {
-      let vis = this;
-  
-      vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
-      vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
-  
-      // Define size of SVG drawing area
-      vis.svg = d3.select(vis.config.parentElement)
-          .attr('width', vis.config.containerWidth)
-          .attr('height', vis.config.containerHeight)
-          .append("g")
-          .attr("transform", `translate(${vis.config.containerWidth / 2}, ${vis.config.containerHeight / 2})`);
-  
-      // Title
-      vis.svg.append("text")
-      .attr("x", 0)
-      .attr("y", -250)
-      .attr("text-anchor", "middle")
-      .style("font-size", "24px")
-      .style('text-decoration', 'underline')
-      .text(vis.config.title);
+        let vis = this;
 
-      // Info Logo
-    vis.svg
-    .append("svg:image")
-    .attr("xlink:href", "../assets/info-logo.png")
-    .attr('class', 'info-logo')
-    .attr("transform", "translate(" + (200) + " ," + (-270) + ")")
-    .on("mouseover mouseleave", function(d){ 
-        if (!d3.select('#info-tooltip').classed("selected") ){
-            d3.select(this).attr("xlink:href", "../assets/info-logo-blue.png");
-            d3.select('#info-tooltip').classed("selected", true)
-            .style('display', 'block')
-            .style('left', (event.pageX + 5) + 'px')   
-            .style('top', (event.pageY) + 'px')
-            .html(`
-                <div class="tooltip-description">${vis.config.infoText}</div>
-                
-            `);
-        }else{
-            d3.select(this).attr("xlink:href", "../assets/info-logo.png");
-            d3.select('#info-tooltip').classed("selected", false);
-            d3.select('#info-tooltip').style('display', 'none');
-        }
-    })
+        vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
+        vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
+
+        // Define size of SVG drawing area
+        vis.svg = d3.select(vis.config.parentElement)
+            .attr('width', vis.config.containerWidth)
+            .attr('height', vis.config.containerHeight)
+            .append("g")
+            .attr("transform", `translate(${vis.config.containerWidth / 2}, ${vis.config.containerHeight / 2})`);
+
+        // Title
+        vis.svg.append("text")
+        .attr("x", 0)
+        .attr("y", -250)
+        .attr("text-anchor", "middle")
+        .style("font-size", "24px")
+        .style('text-decoration', 'underline')
+        .text(vis.config.title);
+
+        // Info Logo
+        vis.svg
+        .append("svg:image")
+        .attr("xlink:href", "../assets/info-logo.png")
+        .attr('class', 'info-logo')
+        .attr("transform", "translate(" + (200) + " ," + (-270) + ")")
+        .on("mouseover mouseleave", function(d){ 
+            if (!d3.select('#info-tooltip').classed("selected") ){
+                d3.select(this).attr("xlink:href", "../assets/info-logo-blue.png");
+                d3.select('#info-tooltip').classed("selected", true)
+                .style('display', 'block')
+                .style('left', (event.pageX + 5) + 'px')   
+                .style('top', (event.pageY) + 'px')
+                .html(`
+                    <div class="tooltip-description">${vis.config.infoText}</div>
+                    
+                `);
+            }else{
+                d3.select(this).attr("xlink:href", "../assets/info-logo.png");
+                d3.select('#info-tooltip').classed("selected", false);
+                d3.select('#info-tooltip').style('display', 'none');
+            }
+        })
 }
   
     updateVis() {
