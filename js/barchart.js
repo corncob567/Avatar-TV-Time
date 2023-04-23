@@ -179,6 +179,22 @@ class Barchart {
         .attr('x', 0)
         .attr('opacity', 0.7)
         .attr('fill', d => vis.charColorScale(vis.yValue(d)));
+    
+    // Tooltip event listeners
+    bars
+      .on('mouseover', (event,d) => {
+        d3.select('#tooltip')
+          .style('display', 'block')
+          .html(`${d.key} appeared in ${d.count} episodes</br>and spoke ${vis.character_word_count.find(n => n.key === d.key).count} lines`)
+      })
+      .on('mousemove', (event) => {
+        d3.select('#tooltip')
+          .style('left', (event.pageX + 10) + 'px')   
+          .style('top', (event.pageY + 10) + 'px')
+      })
+      .on('mouseleave', () => {
+			  d3.select('#tooltip').style('display', 'none');
+			});
 
     //Add episode count to end
     vis.relevantCharacterAppearances.forEach(d =>{
@@ -190,6 +206,7 @@ class Barchart {
           .text(d.count);
 
     })
+    
 
     //Add word count to end
     // vis.relevantCharacterAppearances.forEach(d =>{
