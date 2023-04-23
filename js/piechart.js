@@ -141,6 +141,7 @@ class Piechart {
                 .text(function(d){ return d.data[0]})
                 .attr("transform", function(d) { return `translate(${arcGenerator.centroid(d)})`})
                 .style("text-anchor", "middle")
+                .style("color", "green")
                 .style("font-size", 14);
 
         labels.append('tspan')

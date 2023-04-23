@@ -29,7 +29,7 @@ d3.csv("/data/avatar_transcripts.csv")
       }
     })
     relevant_char_data.sort((a,b) => b.character - a.character)
-    console.log(relevant_char_data)
+    // console.log(relevant_char_data)
     console.log('Data loading complete. Work with dataset.');
 
     // Texts for info tool
@@ -87,7 +87,7 @@ d3.csv("/data/avatar_transcripts.csv")
     //console.log(charactersWithLines);
 
     let chord_char_lines = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
-    console.log(chord_char_lines)
+    // console.log(chord_char_lines)
 
     console.log("Populating table with values")
     table = new Table({
