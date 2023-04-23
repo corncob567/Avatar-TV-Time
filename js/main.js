@@ -7,13 +7,13 @@ let stop_words = [];
 let selectedCharacter = "any";
 let selectedSeason = "any";
 let relevant_char_data = [];
-let main_characters = ["Aang", "Katara", "Sokka", "Toph", "Zuko", "Azula", "Iroh", "Ozai", "Mai", "Ty Lee", "Jet"]
+let main_characters = ["Aang", "Katara", "Sokka", "Toph", "Zuko", "Azula", "Iroh", "Ozai", "Mai", "Ty Lee", "Jet", "Suki"]
 let modal = document.getElementById("myModal");
 span = document.getElementById("btnCloseModal");
 
 //-------------------------//
 d3.csv('/data/stop_words.csv', word => stop_words.push(word.words))
-stop_words.push("ill", "weve", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
+stop_words.push("wouldnt", "ill", "weve", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
 d3.csv("/data/avatar_transcripts.csv")
   .then(_data =>{
     data = _data;
@@ -33,8 +33,10 @@ d3.csv("/data/avatar_transcripts.csv")
     console.log('Data loading complete. Work with dataset.');
 
     // Texts for info tool
-    wordCloudText = "This word cloud shows words that are most commonly used by the specified character in the selected season(s)."
-    pieChartText = "This pie chart shows the proportion of lines spoken broken down by the type of bending discipline the speaker has."
+    wordCloudText = "This word cloud shows words that are most commonly used by the specified character in the selected season(s).";
+    pieChartText = "This pie chart shows the proportion of lines spoken broken down by the type of bending discipline the speaker has.";
+    barChartText = "This bar chart displays the number of lines each of the main characters has in the selected season(s).";
+    chordText = "This chord diagram depicts how frequently each of the main characters reference each other.";
 
     //gets word count of characters across all episodes
     let character_words_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.character);
@@ -102,19 +104,11 @@ d3.csv("/data/avatar_transcripts.csv")
       containerHeight: 600,
       }, data, "benderType", "Lines by Bending Discipline", pieChartText);
 
-    pieChart = new Piechart({
-      parentElement: '#pieChart',
-      containerWidth: 500,
-      containerHeight: 600,
-      }, data, "benderType", "Lines by Bending Discipline", pieChartText);
-
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
     wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters)
-    //descriptionWordCloud.updateVis()
-    filterableVisualizations = [descriptionWordCloud, pieChart];
-
     interactionDiagram = new Chord({parentElement: "#chord"}, relevant_char_data, main_characters);
-
+    
+    filterableVisualizations = [descriptionWordCloud, pieChart];
     filterData(); // initializes filteredData array (to show count on refresh)
     })
 .catch(error => {
@@ -127,12 +121,23 @@ function updateSelectedCharacter(newCharacterSelection){
   pieChart.updateVis(selectedCharacter, selectedSeason);
   d3.select(".characterTableSelected").text(newCharacterSelection)
   table.updateVis();
+  document.getElementById("currentCharacter").textContent = newCharacterSelection.charAt(0).toUpperCase() + newCharacterSelection.slice(1);
 }
 
 function updateSelectedSeason(newSeasonSelection){
   selectedSeason = newSeasonSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
   pieChart.updateVis(selectedCharacter, selectedSeason);
+  switch(newSeasonSelection){
+    case "any":
+      document.getElementById("currentSeason").textContent = "All Seasons";
+    case "1":
+      document.getElementById("currentSeason").textContent = "Book 1 - Water";
+    case "2":
+      document.getElementById("currentSeason").textContent = "Book 2 - Earth";
+    case "3":
+      document.getElementById("currentSeason").textContent = "Book 3 - Fire";
+  }
 }
 
 function getBenderType(d){
@@ -196,6 +201,8 @@ function filterData(resetBrush = false, fullReset = false) {
 
 function clearFilters(){
 	globalDataFilter = [];
+  updateSelectedSeason("any");
+  updateSelectedCharacter("any");
 	filterData(resetBrush=true, fullReset=true);
 }
 
@@ -215,5 +222,29 @@ window.onclick = function(event) {
   console.log("User clicked out, close modal")
   if (event.target == modal) {
   modal.style.display = "none";
+  }
+}
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function selectOtherCharacter() {
+  document.getElementById("selectOtherCharacter").classList.toggle("show");
+}
+
+function selectSeason() {
+  document.getElementById("selectSeason").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
   }
 }

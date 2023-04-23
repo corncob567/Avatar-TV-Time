@@ -10,6 +10,11 @@ body {
 .main-content {
   width: 90%;
 }
+.main-content img {
+  width: 250px;
+  height: 100px;
+  padding: 10px;
+}
 
 .icons-container {
   width: 70px;
@@ -26,6 +31,7 @@ body {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  cursor: pointer;
 }
 .icon:hover {
   border: 2px solid #5c3026;
@@ -342,4 +348,49 @@ button {
 .tabulator-header {
   border-top: 1px solid #5c3026 !important;
   border-bottom: 2px solid #5c3026 !important;
+}
+
+.dropbtn {
+  cursor: pointer;
+  color: black;
+  height: 50px;
+  border-radius: 50%;
+}
+.dropbtn:hover {
+  border: 2px solid #5c3026;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #898989;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff3d0;
+  min-width: 160px;
+  overflow: auto;
+  margin: 0px 20px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {
+  background-color: #bb8e05;
+}
+
+.show {
+  display: block;
 }/*# sourceMappingURL=styles.css.map */

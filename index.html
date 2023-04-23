@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Avatar: The Last Airbender</title>
+        <title>ATLA: Dashboard</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
         <link rel="stylesheet" href="styles/tabulator_bootstrap5.min.css">
         <link rel="stylesheet" href="styles/styles.css">
@@ -9,23 +9,55 @@
     <body>
         <div class="flex-container">
             <div class="icons-container bg-light rounded">
-                <img src="/assets/icons/Aang.jpg" class="icon">
-                <img src="/assets/icons/Katara.jpg" class="icon">
-                <img src="/assets/icons/Sokka.jpg" class="icon">
-                <img src="/assets/icons/Toph.jpg" class="icon">
-                <img src="/assets/icons/Zuko.jpg" class="icon">
-                <img src="/assets/icons/Azula.jpg" class="icon">
-                <img src="/assets/icons/Iroh.jpg" class="icon">
-                <img src="/assets/icons/Ozai.jpg" class="icon">
-                <img src="/assets/icons/Mai.jpg" class="icon">
-                <img src="/assets/icons/Ty_Lee.jpg" class="icon">
-                <img src="/assets/icons/Jet.jpg" class="icon">
+                <div class="dropdown">
+                    <button onclick="selectSeason()" class="dropbtn">Season</button>
+                    <div id="selectSeason" class="dropdown-content">
+                    <a onclick="updateSelectedSeason('any')">Any</a>
+                      <a onclick="updateSelectedSeason('1')">Book 1: Water</a>
+                      <a onclick="updateSelectedSeason('2')">Book 2: Earth</a>
+                      <a onclick="updateSelectedSeason('3')">Book 3: Fire</a>
+                    </div>
+                  </div>
+                <div>---------</div>
+                <img src="/assets/icons/Aang.jpg" class="icon charSelect" onclick="updateSelectedCharacter('aang')">
+                <img src="/assets/icons/Katara.jpg" class="icon charSelect" onclick="updateSelectedCharacter('katara')">
+                <img src="/assets/icons/Sokka.jpg" class="icon charSelect" onclick="updateSelectedCharacter('sokka')">
+                <img src="/assets/icons/Toph.jpg" class="icon charSelect" onclick="updateSelectedCharacter('toph')">
+                <img src="/assets/icons/Zuko.jpg" class="icon charSelect" onclick="updateSelectedCharacter('zuko')">
+                <img src="/assets/icons/Azula.jpg" class="icon charSelect" onclick="updateSelectedCharacter('azula')">
+                <img src="/assets/icons/Iroh.jpg" class="icon charSelect" onclick="updateSelectedCharacter('iroh')">
+                <img src="/assets/icons/Ozai.jpg" class="icon charSelect" onclick="updateSelectedCharacter('ozai')">
+                <img src="/assets/icons/Mai.jpg" class="icon charSelect" onclick="updateSelectedCharacter('mai')">
+                <img src="/assets/icons/Ty_Lee.jpg" class="icon charSelect" onclick="updateSelectedCharacter('ty lee')">
+                <img src="/assets/icons/Suki.jpg" class="icon charSelect" onclick="updateSelectedCharacter('suki')">
+                <img src="/assets/icons/Jet.jpg" class="icon charSelect" onclick="updateSelectedCharacter('jet')">
+                <div class="dropdown">
+                    <button onclick="selectOtherCharacter()" class="dropbtn">Other</button>
+                    <div id="selectOtherCharacter" class="dropdown-content">
+                      <a onclick="updateSelectedCharacter('hakoda')">Hakoda</a>
+                      <a onclick="updateSelectedCharacter('zhao')">Zhao</a>
+                      <a onclick="updateSelectedCharacter('roku')">Roku</a>
+                      <a onclick="updateSelectedCharacter('pakku')">Pakku</a>
+                      <a onclick="updateSelectedCharacter('bumi')">Bumi</a>
+                      <a onclick="updateSelectedCharacter('hama')">Hama</a>
+                      <a onclick="updateSelectedCharacter('long feng')">Long Feng</a>
+                      <a onclick="updateSelectedCharacter('bato')">Bato</a>
+                      <a onclick="updateSelectedCharacter('yue')">Yue</a>
+                      <a onclick="updateSelectedCharacter('pathik')">Guru Pathik</a>
+                      <a onclick="updateSelectedCharacter('haru')">Haru</a>
+                      <a onclick="updateSelectedCharacter('chong')">Chong</a>
+                      <a onclick="updateSelectedCharacter('sozin')">Sozin</a>
+                    </div>
+                  </div>
             </div>
 
             <div class="main-content">
                 <div class="data-info bg-light rounded">
-                    <h1>Avatar: The Last Airbender</h1>
-                    <p>The dashboard below shows information about the transcript of the "Avatar: The Last Airbender" Nickelodeon TV series. <br/>Explore the data using the visualizations below.</p>
+                    <img src="assets\Avatar_Logo.png">
+                    <p>The dashboard below shows information about the transcript of the "Avatar: The Last Airbender" Nickelodeon TV series.</p>
+                    <b>Selected Season: </b><span id="currentSeason">Any</span>
+                    <br/>
+                    <b>Selected Character: </b><span id="currentCharacter">Any</span>
                 </div>
 
                 <div class="flex-container">
@@ -44,28 +76,6 @@
                         </div-->
                         <span class="chart-title">Word Frequency</span>
                         <div class="cloudInnerContainer">
-                            <div class="cloudFilterLegend">
-                                <div class="cloudFilter">
-                                    <!-- Dropdown for color option of map -->
-                                    <div class="dropdown-wrapper">
-                                    <label for="selectCharacter">Choose a character:</label>
-                                    <select name="selectedCharacter" id="selectedCharacter" onchange="updateSelectedCharacter(this.value)">
-                                        <option value="any">Any</option>
-                                    </select>
-                                    </div>
-
-                                    <!-- Dropdown for background of map -->
-                                    <div class="dropdown-wrapper">
-                                    <label for="selectSeason">Choose a season:</label>
-                                    <select name="selectedSeason" id="selectedSeason" onchange="updateSelectedSeason(this.value)">
-                                        <option value="any">Any</option>
-                                        <option value="1">Book 1: Water</option>
-                                        <option value="2">Book 2: Earth</option>
-                                        <option value="3">Book 3: Fire</option>
-                                    </select>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="table-cloud-wrapper">
                             <!--div style="align-self: center">
                                 <span class="characterTable">Character selected: </span>

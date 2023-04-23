@@ -97,7 +97,7 @@ class Chord {
 			)
 			.style("fill", d => vis.colors[d.source.index % 11])
 			.style("stroke", "grey")
-		  .on('mouseover', (event, d) => { console.log(d);
+		  .on('mouseover', (event, d) => {
 							d3.select('#tooltip')
 							  .style('display', 'block')
 							  .style('left', (event.pageX + 10) + 'px')   

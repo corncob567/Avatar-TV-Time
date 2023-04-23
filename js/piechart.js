@@ -74,9 +74,7 @@ class Piechart {
             d3.select('#info-tooltip').style('display', 'none');
         }
     })
-
-      this.updateVis();
-    }
+}
   
     updateVis() {
         let vis = this;
