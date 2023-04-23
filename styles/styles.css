@@ -1,10 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Varela&display=swap");
 body {
-  background: #EEF2FF;
+  background: url("/assets/wallpaper2.jpg");
   margin: 0;
   min-height: 100%;
   font-family: "Varela Round", sans-serif;
+}
+
+.main-content {
+  width: 90%;
+}
+
+.icons-container {
+  width: 70px;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.icon:hover {
+  border: 2px solid #5c3026;
+}
+
+.chart-title {
+  font-size: 25px;
+  font-weight: 700;
+  align-self: center;
+  padding-top: 20px;
 }
 
 .data-info {
@@ -19,7 +50,7 @@ body {
 }
 
 .bg-light {
-  background-color: white !important;
+  background-color: #fff3d0 !important;
 }
 
 .flex-container {
@@ -69,7 +100,8 @@ button {
   width: 100%;
   z-index: 999999;
   bottom: 0px;
-  background-color: #d3ddf5;
+  background-color: #5c3026;
+  color: #fff3d0;
 }
 .footerBar span {
   text-align: center;
@@ -95,6 +127,10 @@ button {
 .footerBar .clearFiltersButton:hover {
   background-color: #f44336;
   color: white;
+}
+
+.barchart-container {
+  flex-direction: column;
 }
 
 .mapContainer {
@@ -139,18 +175,20 @@ button {
 }
 .mapContainer .cloudFilter {
   display: flex;
-  flex-direction: column;
-  row-gap: 10px;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
   margin-bottom: 30px;
-  width: 280px;
+}
+.mapContainer .dropdown-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.mapContainer .table-cloud-wrapper {
+  display: flex;
 }
 .mapContainer .cloudInnerContainer {
   display: flex;
-  margin: 20px;
-}
-
-.tableInnerContainer {
-  display: flex;
+  flex-direction: column;
   margin: 20px;
 }
 
@@ -214,30 +252,6 @@ button {
   stroke-width: 3px;
   -webkit-clip-path: url(#clip);
           clip-path: url(#clip);
-}
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto; /*15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 800px;
-  height: 550px;
 }
 
 /* TOOLTIPS */
@@ -306,4 +320,16 @@ button {
   display: none;
 }
 
-/* END TOOLTIPS *//*# sourceMappingURL=styles.css.map */
+/* END TOOLTIPS */
+.tabulator, .tabulator-col, .tabulator-row-even {
+  background-color: #fff3d0 !important;
+}
+
+.tabulator-row-odd {
+  background-color: #d3c7a3 !important;
+}
+
+.tabulator-header {
+  border-top: 1px solid #5c3026 !important;
+  border-bottom: 2px solid #5c3026 !important;
+}/*# sourceMappingURL=styles.css.map */
