@@ -30,9 +30,13 @@
 
                 <div class="flex-container">
 
-                    <div class="mapContainer flex-container bg-light rounded">
+            <div class="flex-container bg-light rounded" style="height: fit-content">
+                <svg id="pieChart"></svg>
+            </div>
+
+                    <div class="multi-vis-wrapper flex-container bg-light rounded">
                         <!--div class="mapHeader">
-                            <div class="mapTitle">Most Frequent Words</div>
+                            <div class="visTitle">Most Frequent Words</div>
                             <div class="info-icon-container" onclick="infoIconClicked()">
                                 <img src="styles/info-logo.png" class="map-info-tool">
                                 <img src="styles/info-logo-blue.png" class="map-info-tool-blue">
@@ -44,7 +48,7 @@
                                 <div class="cloudFilter">
                                     <!-- Dropdown for color option of map -->
                                     <div class="dropdown-wrapper">
-                                    <label for="mapMarkerColor">Choose a character:</label>
+                                    <label for="selectCharacter">Choose a character:</label>
                                     <select name="selectedCharacter" id="selectedCharacter" onchange="updateSelectedCharacter(this.value)">
                                         <option value="any">Any</option>
                                     </select>
@@ -52,7 +56,7 @@
 
                                     <!-- Dropdown for background of map -->
                                     <div class="dropdown-wrapper">
-                                    <label for="mapBackgroundToggleLabel">Choose a season:</label>
+                                    <label for="selectSeason">Choose a season:</label>
                                     <select name="selectedSeason" id="selectedSeason" onchange="updateSelectedSeason(this.value)">
                                         <option value="any">Any</option>
                                         <option value="1">Book 1: Water</option>
@@ -126,6 +130,7 @@
         <script src="js/main.js"></script>
         <script src="js/barchart.js"></script>
         <script src="js/wordCloud.js"></script>
+        <script src="js/piechart.js"></script>
         <script src="js/chord.js"></script>
         <script src="js/table.js"></script>
     </body>

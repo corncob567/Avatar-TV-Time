@@ -38,29 +38,23 @@ class WordCloud{
     .append("svg:image")
     .attr("xlink:href", "../assets/info-logo.png")
     .attr('class', 'info-logo')
-    .attr("transform", "translate(" + (240) + " ," + (-200) + ")")
-    .on('click', (event, d) => {
-        if (!d3.select('#info-tooltip').classed("selected") ){
-            d3.select('#info-tooltip').classed("selected", true)
-            .style('display', 'block')
-            .style('left', (event.pageX + 5) + 'px')   
-            .style('top', (event.pageY) + 'px')
-            .html(`
-                <div class="tooltip-description">${vis.config.infoText}</div>
-                
-            `);
-            }else{
-            d3.select('#info-tooltip').classed("selected", false);
-            d3.select('#info-tooltip').style('display', 'none');
-            }
-        
-    })
-    .on("mouseover", function(d){ 
-      d3.select(this).attr("xlink:href", "../assets/info-logo-blue.png");
-    })
-    .on("mouseleave", function(d){ 
-        d3.select(this).attr("xlink:href", "../assets/info-logo.png");
-    })
+    .attr("transform", "translate(" + (200) + " ," + (-200) + ")")
+    .on("mouseover mouseleave", function(d){ 
+      if (!d3.select('#info-tooltip').classed("selected") ){
+          d3.select(this).attr("xlink:href", "../assets/info-logo-blue.png");
+          d3.select('#info-tooltip').classed("selected", true)
+          .style('display', 'block')
+          .style('left', (event.pageX + 5) + 'px')
+          .style('top', (event.pageY) + 'px')
+          .html(`
+              <div class="tooltip-description">${vis.config.infoText}</div>
+          `);
+      }else{
+          d3.select(this).attr("xlink:href", "../assets/info-logo.png");
+          d3.select('#info-tooltip').classed("selected", false);
+          d3.select('#info-tooltip').style('display', 'none');
+      }
+  })
   
     vis.updateVis();
   }

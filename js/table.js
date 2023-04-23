@@ -63,7 +63,7 @@ class Table {
                 e.characters.forEach(c =>{       
                     if (selectedCharacter == "any"){
                         episode_summary.push(c.character + " - " + c.lines + " lines spoken")
-                        console.log(c)
+                        // console.log(c)
                     }
                     else{
                         if (c.character == selectedCharacter){
@@ -72,14 +72,12 @@ class Table {
                     }
                 })   
                 if (selectedCharacter == "any"){
-                    console.log(episode_summary.sort((a,b) => b.count - a.count).join('<br>'))
+                    // console.log(episode_summary.sort((a,b) => b.count - a.count).join('<br>'))
                     vis.linedata.push({season: s.season, episode: e.episodeNum, details: episode_summary.sort((a,b) => b.count - a.count).join('\n')})
                     episode_summary = [];
                 }             
             })
-        })
-        console.log(vis.linedata)
-        
+        })        
         this.renderVis();
     }
 
@@ -96,7 +94,6 @@ class Table {
                 {title:"Details", field:"details", widthGrow:3, formatter:"textarea", responsive: 0},
             ],
         });
-        console.log(vis.config.containerWidth)
         //trigger a on alert message when the row is clicked
         vis.table.on("rowClick", function(e, row){ 
             console.log("Clicked row")

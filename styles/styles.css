@@ -133,60 +133,57 @@ button {
   flex-direction: column;
 }
 
-.mapContainer {
+.multi-vis-wrapper {
   flex-direction: column;
   align-items: center;
   margin: 20px;
 }
-.mapContainer select {
+.multi-vis-wrapper select {
   width: 200px;
 }
-.mapContainer #wordCloud {
-  width: 500px;
+.multi-vis-wrapper #wordCloud {
+  width: 410px;
   height: 400px;
   align-self: center;
 }
-.mapContainer #wordCloud circle.filtered {
+.multi-vis-wrapper #wordCloud circle.filtered {
   display: none;
 }
-.mapContainer #wordCloud circle:not(.filtered):hover {
+.multi-vis-wrapper #wordCloud circle:not(.filtered):hover {
   cursor: pointer;
 }
-.mapContainer #wordCloud path {
+.multi-vis-wrapper #wordCloud path {
   fill: none;
 }
-.mapContainer .mapHeader {
+.multi-vis-wrapper .mapHeader {
   display: flex;
   align-self: center;
   margin-top: 20px;
 }
-.mapContainer .mapTitle {
+.multi-vis-wrapper .visTitle {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 15px;
 }
-.mapContainer .mapMarkerColor .mapBGToggle {
-  font-size: 15px;
-}
-.mapContainer .cloudFilterLegend {
+.multi-vis-wrapper .cloudFilterLegend {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.mapContainer .cloudFilter {
+.multi-vis-wrapper .cloudFilter {
   display: flex;
   -moz-column-gap: 10px;
        column-gap: 10px;
   margin-bottom: 30px;
 }
-.mapContainer .dropdown-wrapper {
+.multi-vis-wrapper .dropdown-wrapper {
   display: flex;
   flex-direction: column;
 }
-.mapContainer .table-cloud-wrapper {
+.multi-vis-wrapper .table-cloud-wrapper {
   display: flex;
 }
-.mapContainer .cloudInnerContainer {
+.multi-vis-wrapper .cloudInnerContainer {
   display: flex;
   flex-direction: column;
   margin: 20px;
@@ -252,6 +249,19 @@ button {
   stroke-width: 3px;
   -webkit-clip-path: url(#clip);
           clip-path: url(#clip);
+}
+
+.slice {
+  opacity: 0.3;
+  stroke-width: 2px;
+}
+.slice.selected {
+  stroke-width: 6px;
+  opacity: 0.4;
+}
+
+.sliceLabel {
+  pointer-events: none;
 }
 
 /* TOOLTIPS */
