@@ -52,9 +52,9 @@ class Barchart {
       .domain(['Aang', 'Sokka', 'Katara', 'Zuko', 'Iroh', 'Toph', 'Azula', 'Mai', 'Suki', 'Ozai', 'Ty Lee', 'Hakoda', 'Zhao', 'Roku', 'Pakku', 'Jet', 'Long Feng', 'Bato', 'Yue', 'Pathik', 'Teo', 'Haru', 'Bumi', 'Warden', 'Mechanist', 'Kuei', 'Arnook', 'Piandao', 'Jeong Jeong', 'Joo Dee', 'Hama', 'Chong', 'Sozin', 'Zhang leader', 'Zei', 'Fong', 'Wu', 'Sun Warrior chief', 'Shyu', 'Young Azula', 'Gan Jin leader']);
 
     // Initialize axes
-    vis.xAxis = d3.axisBottom(vis.xScale)
-        .ticks(6)
-        .tickSizeOuter(0);
+    // vis.xAxis = d3.axisBottom(vis.xScale)
+    //     .ticks(6)
+    //     .tickSizeOuter(0);
 
     vis.yAxis = d3.axisLeft(vis.yScale)
         .tickPadding(20)
@@ -69,7 +69,7 @@ class Barchart {
         .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
 
     // Append empty x-axis group and move it to the bottom of the chart
-    vis.xAxisG = d3.select("#top_characters_barchart_xaxis").append('g')
+    vis.xAxisG = vis.chart.append('g')
         .attr('class', 'axis x-axis')
         .attr('transform', `translate(${vis.config.margin.left},30)`);
     
@@ -180,17 +180,28 @@ class Barchart {
         .attr('opacity', 0.7)
         .attr('fill', d => vis.charColorScale(vis.yValue(d)));
 
-    //Add word count to end
+    //Add episode count to end
     vis.relevantCharacterAppearances.forEach(d =>{
-      let text = vis.character_word_count.find(n => n.key === d.key).count
-      //sy_snum.data = data.filter(d => planetFilter.includes(d.pl_name));
-      vis.chart.append('text')
-        .attr('y', vis.yScale(vis.yValue(d))+23 )//vis.height + 10)
-        .attr('x', vis.xScale(vis.xValue(d))+5 )//vis.width/2)
-        .attr('width', 20)
-        .attr('height', 20)
-        .text(text);
+        vis.chart.append('text')
+          .attr('y', vis.yScale(vis.yValue(d))+23 )//vis.height + 10)
+          .attr('x', vis.xScale(vis.xValue(d))+5 )//vis.width/2)
+          .attr('width', 20)
+          .attr('height', 20)
+          .text(d.count);
+
     })
+
+    //Add word count to end
+    // vis.relevantCharacterAppearances.forEach(d =>{
+    //   let text = vis.character_word_count.find(n => n.key === d.key).count
+    //   //sy_snum.data = data.filter(d => planetFilter.includes(d.pl_name));
+    //   vis.chart.append('text')
+    //     .attr('y', vis.yScale(vis.yValue(d))+23 )//vis.height + 10)
+    //     .attr('x', vis.xScale(vis.xValue(d))+5 )//vis.width/2)
+    //     .attr('width', 20)
+    //     .attr('height', 20)
+    //     .text(text);
+    //})
 
     //Bender Logos
     vis.relevantCharacterAppearances.forEach(d =>{
@@ -230,7 +241,7 @@ class Barchart {
 
 
     // Update the axes because the underlying scales might have changed
-    vis.xAxisG.call(vis.xAxis);
+    //vis.xAxisG.call(vis.xAxis);
     vis.yAxisG.call(vis.yAxis);
   }
 }
