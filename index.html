@@ -54,10 +54,10 @@
             <div class="main-content">
                 <div class="data-info bg-light rounded">
                     <img src="assets\Avatar_Logo.png">
-                    <p>The dashboard below shows information about the transcript of the "Avatar: The Last Airbender" Nickelodeon TV series.</p>
+                    <p>Explore your favorite moments from the "Avatar: The Last Airbender" Nickelodeon TV series.</p>
                     <b>Selected Season: </b><span id="currentSeason">All Seasons</span>
                     <br/>
-                    <b>Selected Character: </b><span id="currentCharacter">Any</span>
+                    <b>Selected Character: </b><a href="https://avatar.fandom.com/wiki/Category:Characters" id="currentCharacter">Any</a>
                 </div>
 
                 <div class="flex-container">
@@ -86,6 +86,7 @@
                             </div>
                             <div id="wordCloud"></div>
                             </div>
+                            <div id="phrase"></div>
                         </div>
                     </div>
 
@@ -96,7 +97,6 @@
 
                     <div class="flex-container bg-light rounded barchart-container" style="height: fit-content">
                         <span class="chart-title">How many episodes did they appear in?</span>
-                        <svg id="top_characters_barchart_xaxis" style="width: 750px; height: 50px"></svg>
                         <div id="scroll_barchart" style="height: 400px; overflow-y: auto;">
                             <svg id="top_characters_barchart"></svg>
                         </div>

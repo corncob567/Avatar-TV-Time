@@ -11,6 +11,34 @@ let main_characters = ["Aang", "Katara", "Sokka", "Toph", "Zuko", "Azula", "Iroh
 let modal = document.getElementById("myModal");
 span = document.getElementById("btnCloseModal");
 
+let wikiArticles = {
+  Any: "https://avatar.fandom.com/wiki/Category:Characters",
+  Aang: "https://avatar.fandom.com/wiki/Aang",
+  Zuko: "https://avatar.fandom.com/wiki/Zuko",
+  Katara: "https://avatar.fandom.com/wiki/Katara",
+  Sokka: "https://avatar.fandom.com/wiki/Sokka",
+  Toph: "https://avatar.fandom.com/wiki/Toph_Beifong",
+  Iroh: "https://avatar.fandom.com/wiki/Iroh",
+  Ozai: "https://avatar.fandom.com/wiki/Ozai",
+  Azula: "https://avatar.fandom.com/wiki/Azula",
+  Mai: "https://avatar.fandom.com/wiki/Mai",
+  Ty_Lee: "https://avatar.fandom.com/wiki/Ty_Lee",
+  Suki: "https://avatar.fandom.com/wiki/Suki",
+  Jet: "https://avatar.fandom.com/wiki/Jet",
+  Zhao: "https://avatar.fandom.com/wiki/Zhao",
+  Yue: "https://avatar.fandom.com/wiki/Yue",
+  Hakoda: "https://avatar.fandom.com/wiki/Hakoda",
+  Pakku: "https://avatar.fandom.com/wiki/Pakku",
+  Long_Feng: "https://avatar.fandom.com/wiki/Long_Feng",
+  Hama: "https://avatar.fandom.com/wiki/Hama",
+  Roku: "https://avatar.fandom.com/wiki/Roku",
+  Pathik: "https://avatar.fandom.com/wiki/Pathik",
+  Bato: "https://avatar.fandom.com/wiki/Bato",
+  Haru: "https://avatar.fandom.com/wiki/Haru",
+  Chong: "https://avatar.fandom.com/wiki/Chong",
+  Sozin: "https://avatar.fandom.com/wiki/Sozin",
+  Bumi: "https://avatar.fandom.com/wiki/Bumi_(King_of_Omashu)",
+}
 //-------------------------//
 d3.csv('/data/stop_words.csv', word => stop_words.push(word.words))
 stop_words.push("wouldnt", "ill", "weve", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
@@ -121,14 +149,16 @@ function updateSelectedCharacter(newCharacterSelection){
   pieChart.updateVis(selectedCharacter, selectedSeason);
   d3.select(".characterTableSelected").text(newCharacterSelection)
   table.updateVis();
-  document.getElementById("currentCharacter").textContent = newCharacterSelection.charAt(0).toUpperCase() + newCharacterSelection.slice(1);
+  newCharacterSelection = newCharacterSelection.charAt(0).toUpperCase() + newCharacterSelection.slice(1);
+  document.getElementById("currentCharacter").textContent = newCharacterSelection;
+  document.getElementById("currentCharacter").href = wikiArticles[newCharacterSelection.replace(/ /g,"_")];
 }
 
 function updateSelectedSeason(newSeasonSelection){
   selectedSeason = newSeasonSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
   pieChart.updateVis(selectedCharacter, selectedSeason);
-  console.log(newSeasonSelection)
+  interactionDiagram.updateVis()
   switch(newSeasonSelection){
     case "any":
       document.getElementById("currentSeason").textContent = "All Seasons";

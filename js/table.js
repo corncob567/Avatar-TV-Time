@@ -30,7 +30,6 @@ class Table {
 
     updateVis(){
         let vis = this;  
-        console.log(selectedCharacter)
         let characters_words_per_episode_map = d3.rollups(vis.data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
         let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
         vis.linedata = [];
@@ -41,12 +40,12 @@ class Table {
                 e.characters = Array.from(e.characters, ([character, lines]) => ({ character, lines}));
                 e.characters.forEach(c =>{       
                     if (selectedCharacter == "any"){
-                        episode_summary.push(c.character + " - " + c.lines + " lines spoken")
+                        episode_summary.push(c.character + " - " + c.lines + " words spoken")
                         // console.log(c)
                     }
                     else{
                         if (c.character == selectedCharacter){
-                            vis.linedata.push({season: s.season, episode: e.episodeNum, details: c.lines + " lines spoken"})
+                            vis.linedata.push({season: s.season, episode: e.episodeNum, details: c.lines + " words spoken"})
                         }
                     }
                 })   
@@ -103,5 +102,34 @@ class Table {
                 openModalBrowser();    
             }
         })
+
+
+        //update the BAN (by character)
+        if (selectedCharacter != "any"){
+            let phraseText = selectedCharacter + "'s key phrase: ";
+            switch(selectedCharacter){
+                case "Aang":
+                    phraseText = phraseText + "I don't know..."
+                    break;
+                case "Katara":
+                    phraseText = phraseText + "The Fire Nation..."
+                    break;
+                case "Sokka":
+                    phraseText = phraseText + "The Fire Nation..."
+                    break;
+                case "Toph":
+                    phraseText = phraseText + "I can feel..."
+                    break;
+                case "Zuko":
+                    phraseText = phraseText + "I want the Avatar..."
+                    break;
+                
+            }
+            d3.select("#phrase").selectAll('text').remove()
+            d3.select('#phrase')
+                .append('text')
+                .text(phraseText);
+        }
+
     }
 }
