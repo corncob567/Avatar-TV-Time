@@ -48,7 +48,7 @@ class Piechart {
         .attr("y", -250)
         .attr("text-anchor", "middle")
         .style("font-size", "24px")
-        .style('text-decoration', 'underline')
+        //.style('text-decoration', 'underline')
         .text(vis.config.title);
 
         // Info Logo
@@ -110,15 +110,15 @@ class Piechart {
             .attr('fill', function(d){
                 switch(d.data[0].toLowerCase()){
                     case "airbender":
-                        return "yellow";
+                        return "#FF9900";
                     case "earthbender":
-                        return "green";
+                        return "#063";
                     case "waterbender":
-                        return "blue";
+                        return "#039";
                     case "firebender":
-                        return "red";
+                        return "#e55";
                     case "nonbender":
-                        return "brown";
+                        return "#9932cc";
                 }
              })
             .attr("stroke", "black");

@@ -258,7 +258,7 @@ button {
 }
 
 .slice {
-  opacity: 0.3;
+  opacity: 0.6;
   stroke-width: 2px;
 }
 .slice.selected {

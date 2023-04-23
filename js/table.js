@@ -30,28 +30,7 @@ class Table {
 
     updateVis(){
         let vis = this;  
-        // if (selectedCharacter == "any"){
-        //     console.log(selectedCharacter)
-        //     let character_in_episodes_map = d3.group(vis.data, d => d.season, d => d.episode, d=>d.character);
-        //     let character_in_episodes = Array.from(character_in_episodes_map, ([season, episodes]) => ({ season, episodes}));
-        //     console.log(character_in_episodes)
-        // }
-        // else{
-        //     let characters_words_per_episode_map = d3.rollups(vis.data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
-        //     let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
-        //     vis.linedata = [];
-        //     characters_words_per_episode.forEach(s =>{
-        //         s.episodes = Array.from(s.episodes, ([episodeNum, characters]) => ({ episodeNum, characters}));
-        //         s.episodes.forEach(e => {
-        //             e.characters = Array.from(e.characters, ([character, lines]) => ({ character, lines}));
-        //             e.characters.forEach(c =>{
-        //                 if (c.character == selectedCharacter){
-        //                     vis.linedata.push({season: s.season, episode: e.episodeNum, lines: c.lines + " words spoken"})
-        //                 }
-        //             })                
-        //         })
-        //     })
-        // }
+        console.log(selectedCharacter)
         let characters_words_per_episode_map = d3.rollups(vis.data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
         let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
         vis.linedata = [];

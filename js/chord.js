@@ -104,7 +104,9 @@ class Chord {
 							  .style('left', (event.pageX + 10) + 'px')   
 							  .style('top', (event.pageY + 10) + 'px')
                               .style('font-size', '15px')
-							  .html(`${vis.importantChar[d.source.index]} referenced ${vis.importantChar[d.target.index]} ${d.source.value} times
+							  .html(`<li>${vis.importantChar[d.source.index]} referenced ${vis.importantChar[d.target.index]} ${d.source.value} times
+							  </li><li>${vis.importantChar[d.target.index]} referenced ${vis.importantChar[d.source.index]} ${d.target.value} times
+							  </li>
 								  `);}) 
 		   .on('mouseleave', () => {
 			  d3.select('#tooltip').style('display', 'none');

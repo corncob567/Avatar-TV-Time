@@ -177,6 +177,7 @@ class Barchart {
         .attr('height', vis.yScale.bandwidth())
         .attr('y', d => vis.yScale(vis.yValue(d)))
         .attr('x', 0)
+        .attr('opacity', 0.7)
         .attr('fill', d => vis.charColorScale(vis.yValue(d)));
 
     //Add word count to end

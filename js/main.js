@@ -102,7 +102,7 @@ d3.csv("/data/avatar_transcripts.csv")
       parentElement: '#pieChart',
       containerWidth: 500,
       containerHeight: 600,
-      }, data, "benderType", "Lines by Bending Discipline", pieChartText);
+      }, data, "benderType", "Which bender type talks the most?", pieChartText);
 
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
     wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters, barChartText)
