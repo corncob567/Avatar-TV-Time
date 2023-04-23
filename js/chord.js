@@ -141,7 +141,8 @@ class Chord {
 		let vis = this;
         let matrix = Array(vis.importantChar.length).fill(null).map((i) => Array(vis.importantChar.length).fill(0));
 		let importantCharRegex = new RegExp(vis.importantChar.join("|"), "gm")
-		vis.data.forEach(d => {
+		let filteredData = vis.data.filter(d => (d.season.toString() === selectedSeason || selectedSeason === "any"))
+		filteredData.forEach(d => {
 			let mention = new Set(d.dialog.match(importantCharRegex));
 			if (mention.size != 0){
 				mention.forEach(m => {
@@ -165,34 +166,49 @@ class Chord {
 			.padAngle(0.05)
 			.sortSubgroups(d3.descending)
 			(matrix);
-			
-		vis.svg
-			.datum(vis.chordArc)
-			.join('g')
-				//.attr("transform", "translate(500,500)")
-			.selectAll('g')
-			.data(d => d.groups)
-			.join('g')
-			.join('path')
-				.style("fill", "grey")
+
+		// TODO: Sam, i tried to copy stuff from initvis and mod it to render properly, but it jacks up.
+		// Draw Group Arcs
+        vis.svg
+            .datum(vis.chordArc)
+            .join('g')
+            .selectAll('g')
+            .data(d => d.groups)
+            .join('path')
+                .attr("class", d => {return "group " + vis.importantChar[d.index];})
+                .attr("id", d => {return "#group" + vis.importantChar[d.index];})
+                .style("fill", d => vis.colors[d.index])
 				.style("stroke", "grey")
+                .style("opacity", "0.5")
 				.attr("d", d3.arc()
 				  .innerRadius(200)
 				  .outerRadius(220)
-				);
-				
-		vis.svg
-		  .datum(vis.chordArc)
-		  .join("g")
-			.attr("transform", "translate(220,220)")
-		  .selectAll("path")
-		  .data(d => d)
-		  .join("path")
-			.attr("d", d3.ribbon()
-			  .radius(200)
-			)
-			.style("fill", "#69b3a2")
-			.style("stroke", "grey");
+				)
 		
+		// Draw Chord Arcs
+		vis.svg
+			.datum(vis.chordArc)
+			.join("g")
+			.selectAll("path")
+			.data(d => d)
+			.join("path")
+				.attr("d", d3.ribbon()
+				.radius(200)
+				)
+				.style("fill", d => vis.colors[d.source.index % 11])
+				.style("stroke", "grey")
+			.on('mouseover', (event, d) => {
+								d3.select('#tooltip')
+								.style('display', 'block')
+								.style('left', (event.pageX + 10) + 'px')   
+								.style('top', (event.pageY + 10) + 'px')
+								.style('font-size', '15px')
+								.html(`<li>${vis.importantChar[d.source.index]} referenced ${vis.importantChar[d.target.index]} ${d.source.value} times
+								</li><li>${vis.importantChar[d.target.index]} referenced ${vis.importantChar[d.source.index]} ${d.target.value} times
+								</li>
+									`);}) 
+				.on('mouseleave', () => {
+					d3.select('#tooltip').style('display', 'none');
+				});
 	}
 }
