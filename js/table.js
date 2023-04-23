@@ -30,7 +30,6 @@ class Table {
 
     updateVis(){
         let vis = this;  
-        console.log(selectedCharacter)
         let characters_words_per_episode_map = d3.rollups(vis.data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.season, d => d.episode, d => d.character);
         let characters_words_per_episode = Array.from(characters_words_per_episode_map, ([season, episodes]) => ({ season, episodes}));
         vis.linedata = [];

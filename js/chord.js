@@ -162,7 +162,6 @@ class Chord {
 	{
 		let vis = this;
 		let matrix = vis.getMatrix();
-		
 		vis.chordArc = d3.chord()
 			.padAngle(0.05)
 			.sortSubgroups(d3.descending)
