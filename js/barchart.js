@@ -28,7 +28,7 @@ class Barchart {
    * This function contains all the code that gets excecuted only once at the beginning.
    * (can be also part of the class constructor)
    * We initialize scales/axes and append static elements, such as axis titles.
-   * If we want to implement a responsive visualization, we would move the size
+   * If we want to implement a responsive visualization, we would move the
    * specifications to the updateVis() function.
    */
   initVis() {
@@ -185,7 +185,7 @@ class Barchart {
       .on('mouseover', (event,d) => {
         d3.select('#tooltip')
           .style('display', 'block')
-          .html(`${d.key} appeared in ${d.count} episodes</br>and spoke ${vis.character_word_count.find(n => n.key === d.key).count} lines`)
+          .html(`${d.key} appeared in ${d.count} episodes</br>and spoke ${vis.character_word_count.find(n => n.key === d.key).count} words`)
       })
       .on('mousemove', (event) => {
         d3.select('#tooltip')

@@ -40,12 +40,12 @@ class Table {
                 e.characters = Array.from(e.characters, ([character, lines]) => ({ character, lines}));
                 e.characters.forEach(c =>{       
                     if (selectedCharacter == "any"){
-                        episode_summary.push(c.character + " - " + c.lines + " lines spoken")
+                        episode_summary.push(c.character + " - " + c.lines + " words spoken")
                         // console.log(c)
                     }
                     else{
                         if (c.character == selectedCharacter){
-                            vis.linedata.push({season: s.season, episode: e.episodeNum, details: c.lines + " lines spoken"})
+                            vis.linedata.push({season: s.season, episode: e.episodeNum, details: c.lines + " words spoken"})
                         }
                     }
                 })   
@@ -102,5 +102,34 @@ class Table {
                 openModalBrowser();    
             }
         })
+
+        //update the BAN (by character)
+        if (selectedCharacter != "any"){
+            let phraseText = selectedCharacter + "'s key phrase: ";
+            switch(selectedCharacter){
+                case "Aang":
+                    phraseText = phraseText + "I don't know..."
+                    break;
+                case "Katara":
+                    phraseText = phraseText + "The Fire Nation..."
+                    break;
+                case "Sokka":
+                    phraseText = phraseText + "The Fire Nation..."
+                    break;
+                case "Toph":
+                    phraseText = phraseText + "I can feel..."
+                    break;
+                case "Zuko":
+                    phraseText = phraseText + "I want the Avatar..."
+                    break;
+                
+
+            }
+            
+            d3.select('#phrase')
+            .append('text')
+            .text(phraseText)
+        }
+
     }
 }
