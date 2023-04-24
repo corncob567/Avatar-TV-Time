@@ -237,6 +237,7 @@ function clearFilters(){
 	globalDataFilter = [];
   updateSelectedSeason("any");
   updateSelectedCharacter("any");
+  d3.select("#phrase").selectAll('text').remove()
 	filterData(resetBrush=true, fullReset=true);
 }
 
