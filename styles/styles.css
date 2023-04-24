@@ -16,6 +16,13 @@ body {
   padding: 10px;
 }
 
+.line {
+  width: 60px;
+  height: 60px;
+  border-bottom: 3px solid #5c3026;
+  position: absolute;
+}
+
 .icons-container {
   width: 70px;
   height: -moz-fit-content;
