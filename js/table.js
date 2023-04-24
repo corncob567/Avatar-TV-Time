@@ -106,13 +106,14 @@ class Table {
 
         //update the BAN (by character)
         if (selectedCharacter != "any"){
-            let phraseText = selectedCharacter + "'s key phrase: ";
+            d3.select("#phrase").selectAll('text').remove()
+            let phraseText = "";
             switch(selectedCharacter){
                 case "Aang":
                     phraseText = phraseText + "I don't know..."
                     break;
                 case "Katara":
-                    phraseText = phraseText + "The Fire Nation..."
+                    phraseText = phraseText + "Get out of here..."
                     break;
                 case "Sokka":
                     phraseText = phraseText + "The Fire Nation..."
@@ -123,12 +124,35 @@ class Table {
                 case "Zuko":
                     phraseText = phraseText + "I want the Avatar..."
                     break;
+                case "Azula":
+                    phraseText = phraseText + "Ba Sing Se"
+                    break;
+                case "Iroh":
+                    phraseText = phraseText + "Prince Zuko..."
+                    break;
+                case "Ozai":
+                    phraseText = phraseText + "I am proud..."
+                    break;
+                case "Mai":
+                    phraseText = phraseText + "Who are you angry at?";
+                    break;
+                case "Ty Lee":
+                    phraseText = phraseText + "I joined the circus...";
+                    break;
+                case "Suki":
+                    phraseText = phraseText + "We can help you";
+                    break;    
+                case "Jet":
+                    phraseText = phraseText + "These are my freedom fighters";
+                    break;  
                 
             }
-            d3.select("#phrase").selectAll('text').remove()
-            d3.select('#phrase')
-                .append('text')
-                .text(phraseText);
+            if (phraseText){
+                d3.select('#phrase')
+                    .append('text')
+                    .style('font-size', '30px')
+                    .text(selectedCharacter + "'s key phrase: " + phraseText);
+            }
         }
 
     }

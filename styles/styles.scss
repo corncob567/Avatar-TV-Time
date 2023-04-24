@@ -361,12 +361,11 @@ button{
   color: black;
   background-color: #5c302678;
   height: 50px;
-  border-radius: 10%;
+  border-radius: 20%;
   //background-color: ;
   &:hover {
     border: 2px solid #5c3026;
   }
-  padding: 1px;
 }
 
 .dropbtn:hover, .dropbtn:focus {

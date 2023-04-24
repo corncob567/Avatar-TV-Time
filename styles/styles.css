@@ -357,8 +357,7 @@ button {
   color: black;
   background-color: rgba(92, 48, 38, 0.4705882353);
   height: 50px;
-  border-radius: 10%;
-  padding: 1px;
+  border-radius: 20%;
 }
 .dropbtn:hover {
   border: 2px solid #5c3026;

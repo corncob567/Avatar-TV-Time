@@ -12,8 +12,8 @@ class Barchart {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 750,
-      containerHeight: _config.containerHeight || 1800,
-      margin: _config.margin || {top: 20, right: 80, bottom: 50, left: 130},
+      containerHeight: _config.containerHeight || 3000,
+      margin: _config.margin || {top: 20, right: 80, bottom: 50, left: 160},
       infoText: _infoText
     }
     this.data = _data;
@@ -199,7 +199,7 @@ class Barchart {
     //Add episode count to end
     vis.relevantCharacterAppearances.forEach(d =>{
         vis.chart.append('text')
-          .attr('y', vis.yScale(vis.yValue(d))+23 )//vis.height + 10)
+          .attr('y', vis.yScale(vis.yValue(d))+35 )//vis.height + 10)
           .attr('x', vis.xScale(vis.xValue(d))+5 )//vis.width/2)
           .attr('width', 20)
           .attr('height', 20)
@@ -224,34 +224,34 @@ class Barchart {
     vis.relevantCharacterAppearances.forEach(d =>{
       if (d.key == "Aang"){
         vis.chart.append('svg:image')
-        .attr('y', vis.yScale(vis.yValue(d))+8 )
-        .attr('x', -20)//vis.width/2)
-        .attr('width', 20)
-        .attr('height', 20)
+        .attr('y', vis.yScale(vis.yValue(d))+16 )
+        .attr('x', -25)//vis.width/2)
+        .attr('width', 25)
+        .attr('height', 25)
         .attr("xlink:href", "assets/air_symbol.png");
       }
       else if(d.key == "Katara" || d.key == "Pakku" || d.key == "Hama"){
         vis.chart.append('svg:image')
-        .attr('y', vis.yScale(vis.yValue(d))+8 )
-        .attr('x', -20)//vis.width/2)
-        .attr('width', 20)
-        .attr('height', 20)
+        .attr('y', vis.yScale(vis.yValue(d))+16 )
+        .attr('x', -25)//vis.width/2)
+        .attr('width', 25)
+        .attr('height', 25)
         .attr("xlink:href", "assets/water_symbol.png");
       }
       else if(d.key == "Zuko" || d.key == "Iroh" || d.key == "Azula" || d.key == "Ozai" || d.key == "Zhao" || d.key == "Roku" || d.key == "Jeong Jeong" || d.key == "Sozin" || d.key == "Sun Warrior chief" || d.key == "Shyu"){
         vis.chart.append('svg:image')
-        .attr('y', vis.yScale(vis.yValue(d))+8 )
-        .attr('x', -20)
-        .attr('width', 20)
-        .attr('height', 20)
+        .attr('y', vis.yScale(vis.yValue(d))+16 )
+        .attr('x', -25)
+        .attr('width', 25)
+        .attr('height', 25)
         .attr("xlink:href", "assets/fire_symbol.png");
       }
       else if(d.key == "Toph" || d.key == "Long Feng" || d.key == "Haru" || d.key == "Bumi" || d.key == "Fong"){
         vis.chart.append('svg:image')
-        .attr('y', vis.yScale(vis.yValue(d))+8 )
-        .attr('x', -20)
-        .attr('width', 20)
-        .attr('height', 20)
+        .attr('y', vis.yScale(vis.yValue(d))+16)
+        .attr('x', -25)
+        .attr('width', 25)
+        .attr('height', 25)
         .attr("xlink:href", "assets/earth_symbol.png");
       }      
     })
