@@ -17,14 +17,13 @@ body {
 }
 
 .line {
-  width: 60px;
-  height: 60px;
   border-bottom: 3px solid #5c3026;
   position: absolute;
+  padding-bottom: 10px;
 }
 
 .icons-container {
-  width: 70px;
+  width: 90px;
   height: -moz-fit-content;
   height: fit-content;
   display: flex;
@@ -365,6 +364,10 @@ button {
   background-color: rgba(92, 48, 38, 0.4705882353);
   height: 50px;
   border-radius: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px;
 }
 .dropbtn:hover {
   border: 2px solid #5c3026;
@@ -377,6 +380,8 @@ button {
 .dropdown {
   position: relative;
   display: inline-block;
+  z-index: 10;
+  align-self: center;
 }
 
 .dropdown-content {

@@ -18,14 +18,13 @@ body {
 }
 
 .line{
-  width: 60px;
-  height: 60px;
   border-bottom: 3px solid #5c3026;
   position: absolute;
+  padding-bottom: 10px;;
   }
 
 .icons-container {
-  width: 70px;
+  width: 90px;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -373,6 +372,10 @@ button{
   &:hover {
     border: 2px solid #5c3026;
   }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px;
 }
 
 .dropbtn:hover, .dropbtn:focus {
@@ -382,6 +385,8 @@ button{
 .dropdown {
   position: relative;
   display: inline-block;
+  z-index: 10;
+  align-self: center;
 }
 
 .dropdown-content {
