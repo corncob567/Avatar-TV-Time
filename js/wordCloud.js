@@ -64,7 +64,7 @@ class WordCloud{
 
     vis.freqMap = {}
     vis.data.forEach(d => {
-      if (!d.filtered && d.dialog !== undefined && (d.character.toLowerCase() === selectedCharacter.toLowerCase() || selectedCharacter === "any") && (d.season.toString() === selectedSeason || selectedSeason === "any")) {
+      if (!d.filtered && d.dialog !== undefined && (d.character.toLowerCase() === selectedCharacter.toLowerCase() || selectedCharacter === "any") && (d.season.toString() === selectedSeason || selectedSeason === "any") && (d.episode.toString() === selectedEpisode || selectedEpisode === "any")) {
         let words = d.dialog.replace(/[^a-z\s]/igm,"").toLowerCase().split(/\s/gm).filter(string => string);
         words.forEach(w => {
           if (!vis.freqMap[w] && !stop_words.includes(w.replace(/\s/ig, ""))) {

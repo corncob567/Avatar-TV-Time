@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Avatar: The Last Airbender</title>
+        <title>ATLA: Dashboard</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
         <link rel="stylesheet" href="styles/tabulator_bootstrap5.min.css">
         <link rel="stylesheet" href="styles/styles.css">
@@ -9,23 +9,81 @@
     <body>
         <div class="flex-container">
             <div class="icons-container bg-light rounded">
-                <img src="/assets/icons/Aang.jpg" class="icon">
-                <img src="/assets/icons/Katara.jpg" class="icon">
-                <img src="/assets/icons/Sokka.jpg" class="icon">
-                <img src="/assets/icons/Toph.jpg" class="icon">
-                <img src="/assets/icons/Zuko.jpg" class="icon">
-                <img src="/assets/icons/Azula.jpg" class="icon">
-                <img src="/assets/icons/Iroh.jpg" class="icon">
-                <img src="/assets/icons/Ozai.jpg" class="icon">
-                <img src="/assets/icons/Mai.jpg" class="icon">
-                <img src="/assets/icons/Ty_Lee.jpg" class="icon">
-                <img src="/assets/icons/Jet.jpg" class="icon">
+                <div class="dropdown line">
+                    <button onclick="selectSeason()" class="dropbtn">Season</button>
+                    <div id="selectSeason" class="dropdown-content">
+                      <a onclick="updateSelectedSeason('any')">All Seasons</a>
+                      <a onclick="updateSelectedSeason('1')">Book 1: Water</a>
+                      <a onclick="updateSelectedSeason('2')">Book 2: Earth</a>
+                      <a onclick="updateSelectedSeason('3')">Book 3: Fire</a>
+                    </div>
+                    <button hidden onclick="selectEpisode()" id="ep_button" class="dropbtn" style="font-size: 14px;">Episode</button>
+                    <div id="selectEpisode" class="dropdown-content">
+                        <a onclick="updateSelectedEpisode('any')">All episodes</a>
+                        <a onclick="updateSelectedEpisode('1')">Episode 1</a>
+                        <a onclick="updateSelectedEpisode('2')">Episode 2</a>
+                        <a onclick="updateSelectedEpisode('3')">Episode 3</a>
+                        <a onclick="updateSelectedEpisode('4')">Episode 4</a>
+                        <a onclick="updateSelectedEpisode('5')">Episode 5</a>
+                        <a onclick="updateSelectedEpisode('6')">Episode 6</a>
+                        <a onclick="updateSelectedEpisode('7')">Episode 7</a>
+                        <a onclick="updateSelectedEpisode('8')">Episode 8</a>
+                        <a onclick="updateSelectedEpisode('9')">Episode 9</a>
+                        <a onclick="updateSelectedEpisode('10')">Episode 10</a>
+                        <a onclick="updateSelectedEpisode('11')">Episode 11</a>
+                        <a onclick="updateSelectedEpisode('12')">Episode 12</a>
+                        <a onclick="updateSelectedEpisode('13')">Episode 13</a>
+                        <a onclick="updateSelectedEpisode('14')">Episode 14</a>
+                        <a onclick="updateSelectedEpisode('15')">Episode 15</a>
+                        <a onclick="updateSelectedEpisode('16')">Episode 16</a>
+                        <a onclick="updateSelectedEpisode('17')">Episode 17</a>
+                        <a onclick="updateSelectedEpisode('18')">Episode 18</a>
+                        <a onclick="updateSelectedEpisode('19')">Episode 19</a>
+                        <a onclick="updateSelectedEpisode('20')">Episode 20</a>
+                        <a hidden id="ep21" onclick="updateSelectedEpisode('21')">Episode 21</a>
+                    </div>
+                </div>
+                <img src="/assets/icons/Aang.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Aang')">
+                <img src="/assets/icons/Katara.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Katara')">
+                <img src="/assets/icons/Sokka.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Sokka')">
+                <img src="/assets/icons/Toph.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Toph')">
+                <img src="/assets/icons/Zuko.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Zuko')">
+                <img src="/assets/icons/Azula.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Azula')">
+                <img src="/assets/icons/Iroh.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Iroh')">
+                <img src="/assets/icons/Ozai.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Ozai')">
+                <img src="/assets/icons/Mai.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Mai')">
+                <img src="/assets/icons/Ty_Lee.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Ty Lee')">
+                <img src="/assets/icons/Suki.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Suki')">
+                <img src="/assets/icons/Jet.jpg" class="icon charSelect" onclick="updateSelectedCharacter('Jet')">
+                <div class="dropdown">
+                    <button onclick="selectOtherCharacter()" class="dropbtn">Other</button>
+                    <div id="selectOtherCharacter" class="dropdown-content">
+                      <a onclick="updateSelectedCharacter('Hakoda')">Hakoda</a>
+                      <a onclick="updateSelectedCharacter('Zhao')">Zhao</a>
+                      <a onclick="updateSelectedCharacter('Roku')">Roku</a>
+                      <a onclick="updateSelectedCharacter('Pakku')">Pakku</a>
+                      <a onclick="updateSelectedCharacter('Bumi')">Bumi</a>
+                      <a onclick="updateSelectedCharacter('Hama')">Hama</a>
+                      <a onclick="updateSelectedCharacter('Long Feng')">Long Feng</a>
+                      <a onclick="updateSelectedCharacter('Bato')">Bato</a>
+                      <a onclick="updateSelectedCharacter('Yue')">Yue</a>
+                      <a onclick="updateSelectedCharacter('Pathik')">Guru Pathik</a>
+                      <a onclick="updateSelectedCharacter('Haru')">Haru</a>
+                      <a onclick="updateSelectedCharacter('Chong')">Chong</a>
+                      <a onclick="updateSelectedCharacter('Sozin')">Sozin</a>
+                    </div>
+                  </div>
             </div>
 
             <div class="main-content">
                 <div class="data-info bg-light rounded">
-                    <h1>Avatar: The Last Airbender</h1>
-                    <p>The dashboard below shows information about the transcript of the "Avatar: The Last Airbender" Nickelodeon TV series. <br/>Explore the data using the visualizations below.</p>
+                    <img src="assets\Avatar_Logo.png">
+                    <p>Explore your favorite moments from the "Avatar: The Last Airbender" Nickelodeon TV series.</p>
+                    <b>Selected Season: </b><span id="currentSeason">All Seasons</span>
+                    <br/>
+                    <b>Selected Episode: </b><span id="currentEpisode">All Episodes</span>
+                    <br/>
+                    <b>Selected Character: </b><a href="https://avatar.fandom.com/wiki/Category:Characters" id="currentCharacter">Any</a>
                 </div>
 
                 <div class="flex-container">
@@ -42,30 +100,8 @@
                                 <img src="styles/info-logo-blue.png" class="map-info-tool-blue">
                             </div>
                         </div-->
-                        <span class="chart-title">Word Frequency</span>
+                        <span class="chart-title">What were the characters saying?</span>
                         <div class="cloudInnerContainer">
-                            <div class="cloudFilterLegend">
-                                <div class="cloudFilter">
-                                    <!-- Dropdown for color option of map -->
-                                    <div class="dropdown-wrapper">
-                                    <label for="selectCharacter">Choose a character:</label>
-                                    <select name="selectedCharacter" id="selectedCharacter" onchange="updateSelectedCharacter(this.value)">
-                                        <option value="any">Any</option>
-                                    </select>
-                                    </div>
-
-                                    <!-- Dropdown for background of map -->
-                                    <div class="dropdown-wrapper">
-                                    <label for="selectSeason">Choose a season:</label>
-                                    <select name="selectedSeason" id="selectedSeason" onchange="updateSelectedSeason(this.value)">
-                                        <option value="any">Any</option>
-                                        <option value="1">Book 1: Water</option>
-                                        <option value="2">Book 2: Earth</option>
-                                        <option value="3">Book 3: Fire</option>
-                                    </select>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="table-cloud-wrapper">
                             <!--div style="align-self: center">
                                 <span class="characterTable">Character selected: </span>
@@ -76,18 +112,18 @@
                             </div>
                             <div id="wordCloud"></div>
                             </div>
+                            <div id="phrase" style="padding-top:20px;"></div>
                         </div>
                     </div>
 
                     <div class="chordDiagramContainer flex-container bg-light rounded" style="flex-direction: column;">
-                        <span class="chart-title">Interaction Diagram</span>
+                        <span class="chart-title">Who talked to who?</span>
                         <svg id="chord"></svg>
                     </div>
 
-                    <div class="flex-container bg-light rounded barchart-container" style="height: fit-content">
-                        <span class="chart-title">Bar Chart</span>
-                        <svg id="top_characters_barchart_xaxis" style="width: 750px; height: 50px"></svg>
-                        <div id="scroll_barchart" style="height: 400px; overflow-y: auto;">
+                    <div class="flex-container bg-light rounded barchart-container" style="height: fit-content; padding-bottom: 20px;">
+                        <span class="chart-title">How many episodes did they appear in?</span>
+                        <div id="scroll_barchart" style="height: 600px; overflow-y: auto;">
                             <svg id="top_characters_barchart"></svg>
                         </div>
                     </div>
@@ -107,7 +143,6 @@
         </div>
 
         <footer class="flex-container footerBar">
-            <div style="align-self: center"><span class="dataCountLabel">Lines In Use:</span><span class="dataCount">0</span></div>
             <button onClick='clearFilters()' type='button' class="clearFiltersButton">Clear Filters</button>
             <div style="text-align-last: end">
                 <div class="pageinfo-text">

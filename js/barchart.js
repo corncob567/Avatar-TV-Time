@@ -5,15 +5,16 @@ class Barchart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data, _xval, _yval, _relevant_characters) {
+  constructor(_config, _data, _xval, _yval, _relevant_characters, _infoText) {
     // Configuration object with defaults
     // Important: depending on your vis and the type of interactivity you need
     // you might want to use getter and setter methods for individual attributes
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 750,
-      containerHeight: _config.containerHeight || 1800,
-      margin: _config.margin || {top: 20, right: 80, bottom: 50, left: 130}
+      containerHeight: _config.containerHeight || 3000,
+      margin: _config.margin || {top: 20, right: 80, bottom: 50, left: 160},
+      infoText: _infoText
     }
     this.data = _data;
     this.xval = _xval;
@@ -27,7 +28,7 @@ class Barchart {
    * This function contains all the code that gets excecuted only once at the beginning.
    * (can be also part of the class constructor)
    * We initialize scales/axes and append static elements, such as axis titles.
-   * If we want to implement a responsive visualization, we would move the size
+   * If we want to implement a responsive visualization, we would move the
    * specifications to the updateVis() function.
    */
   initVis() {
@@ -51,9 +52,9 @@ class Barchart {
       .domain(['Aang', 'Sokka', 'Katara', 'Zuko', 'Iroh', 'Toph', 'Azula', 'Mai', 'Suki', 'Ozai', 'Ty Lee', 'Hakoda', 'Zhao', 'Roku', 'Pakku', 'Jet', 'Long Feng', 'Bato', 'Yue', 'Pathik', 'Teo', 'Haru', 'Bumi', 'Warden', 'Mechanist', 'Kuei', 'Arnook', 'Piandao', 'Jeong Jeong', 'Joo Dee', 'Hama', 'Chong', 'Sozin', 'Zhang leader', 'Zei', 'Fong', 'Wu', 'Sun Warrior chief', 'Shyu', 'Young Azula', 'Gan Jin leader']);
 
     // Initialize axes
-    vis.xAxis = d3.axisBottom(vis.xScale)
-        .ticks(6)
-        .tickSizeOuter(0);
+    // vis.xAxis = d3.axisBottom(vis.xScale)
+    //     .ticks(6)
+    //     .tickSizeOuter(0);
 
     vis.yAxis = d3.axisLeft(vis.yScale)
         .tickPadding(20)
@@ -68,7 +69,7 @@ class Barchart {
         .attr('transform', `translate(${vis.config.margin.left},${vis.config.margin.top})`);
 
     // Append empty x-axis group and move it to the bottom of the chart
-    vis.xAxisG = d3.select("#top_characters_barchart_xaxis").append('g')
+    vis.xAxisG = vis.chart.append('g')
         .attr('class', 'axis x-axis')
         .attr('transform', `translate(${vis.config.margin.left},30)`);
     
@@ -76,8 +77,30 @@ class Barchart {
     vis.yAxisG = vis.chart.append('g')
         .attr('class', 'axis y-axis');
 
-    // Append titles, legends and other static elements here
-    // ...
+    // Info Logo
+    vis.svg
+    .append("svg:image")
+    .attr("xlink:href", "../assets/info-logo.png")
+    .attr('class', 'info-logo')
+    .attr("transform", "translate(" + (700) + " ," + (0) + ")")
+    .on("mouseover mouseleave", function(d){ 
+        if (!d3.select('#info-tooltip').classed("selected") ){
+            d3.select(this).attr("xlink:href", "../assets/info-logo-blue.png");
+            d3.select('#info-tooltip').classed("selected", true)
+            .style('display', 'block')
+            .style('left', (event.pageX + 5) + 'px')   
+            .style('top', (event.pageY) + 'px')
+            .html(`
+                <div class="tooltip-description">${vis.config.infoText}</div>
+                
+            `);
+        }else{
+            d3.select(this).attr("xlink:href", "../assets/info-logo.png");
+            d3.select('#info-tooltip').classed("selected", false);
+            d3.select('#info-tooltip').style('display', 'none');
+        }
+    })
+
     vis.updateVis()
   }
 
@@ -154,59 +177,75 @@ class Barchart {
         .attr('height', vis.yScale.bandwidth())
         .attr('y', d => vis.yScale(vis.yValue(d)))
         .attr('x', 0)
+        .attr('opacity', 0.7)
         .attr('fill', d => vis.charColorScale(vis.yValue(d)));
+    
+    // Tooltip event listeners
+    bars
+      .on('mouseover', (event,d) => {
+        d3.select('#tooltip')
+          .style('display', 'block')
+          .html(`${d.key} appeared in ${d.count} episodes</br>and spoke ${vis.character_word_count.find(n => n.key === d.key).count} words`)
+      })
+      .on('mousemove', (event) => {
+        d3.select('#tooltip')
+          .style('left', (event.pageX + 10) + 'px')   
+          .style('top', (event.pageY + 10) + 'px')
+      })
+      .on('mouseleave', () => {
+			  d3.select('#tooltip').style('display', 'none');
+			});
 
-    //Add word count to end
+    //Add episode count to end
     vis.relevantCharacterAppearances.forEach(d =>{
-      let text = vis.character_word_count.find(n => n.key === d.key).count
-      //sy_snum.data = data.filter(d => planetFilter.includes(d.pl_name));
-      vis.chart.append('text')
-        .attr('y', vis.yScale(vis.yValue(d))+23 )//vis.height + 10)
-        .attr('x', vis.xScale(vis.xValue(d))+5 )//vis.width/2)
-        .attr('width', 20)
-        .attr('height', 20)
-        .text(text);
+        vis.chart.append('text')
+          .attr('y', vis.yScale(vis.yValue(d))+35 )//vis.height + 10)
+          .attr('x', vis.xScale(vis.xValue(d))+5 )//vis.width/2)
+          .attr('width', 20)
+          .attr('height', 20)
+          .text(d.count);
+
     })
 
     //Bender Logos
     vis.relevantCharacterAppearances.forEach(d =>{
       if (d.key == "Aang"){
         vis.chart.append('svg:image')
-        .attr('y', vis.yScale(vis.yValue(d))+8 )
-        .attr('x', -20)//vis.width/2)
-        .attr('width', 20)
-        .attr('height', 20)
+        .attr('y', vis.yScale(vis.yValue(d))+16 )
+        .attr('x', -25)//vis.width/2)
+        .attr('width', 25)
+        .attr('height', 25)
         .attr("xlink:href", "assets/air_symbol.png");
       }
       else if(d.key == "Katara" || d.key == "Pakku" || d.key == "Hama"){
         vis.chart.append('svg:image')
-        .attr('y', vis.yScale(vis.yValue(d))+8 )
-        .attr('x', -20)//vis.width/2)
-        .attr('width', 20)
-        .attr('height', 20)
+        .attr('y', vis.yScale(vis.yValue(d))+16 )
+        .attr('x', -25)//vis.width/2)
+        .attr('width', 25)
+        .attr('height', 25)
         .attr("xlink:href", "assets/water_symbol.png");
       }
       else if(d.key == "Zuko" || d.key == "Iroh" || d.key == "Azula" || d.key == "Ozai" || d.key == "Zhao" || d.key == "Roku" || d.key == "Jeong Jeong" || d.key == "Sozin" || d.key == "Sun Warrior chief" || d.key == "Shyu"){
         vis.chart.append('svg:image')
-        .attr('y', vis.yScale(vis.yValue(d))+8 )
-        .attr('x', -20)
-        .attr('width', 20)
-        .attr('height', 20)
+        .attr('y', vis.yScale(vis.yValue(d))+16 )
+        .attr('x', -25)
+        .attr('width', 25)
+        .attr('height', 25)
         .attr("xlink:href", "assets/fire_symbol.png");
       }
       else if(d.key == "Toph" || d.key == "Long Feng" || d.key == "Haru" || d.key == "Bumi" || d.key == "Fong"){
         vis.chart.append('svg:image')
-        .attr('y', vis.yScale(vis.yValue(d))+8 )
-        .attr('x', -20)
-        .attr('width', 20)
-        .attr('height', 20)
+        .attr('y', vis.yScale(vis.yValue(d))+16)
+        .attr('x', -25)
+        .attr('width', 25)
+        .attr('height', 25)
         .attr("xlink:href", "assets/earth_symbol.png");
       }      
     })
 
 
     // Update the axes because the underlying scales might have changed
-    vis.xAxisG.call(vis.xAxis);
+    //vis.xAxisG.call(vis.xAxis);
     vis.yAxisG.call(vis.yAxis);
   }
 }

@@ -6,14 +6,43 @@ let filterableVisualizations = [];
 let stop_words = [];
 let selectedCharacter = "any";
 let selectedSeason = "any";
+let selectedEpisode = "any";
 let relevant_char_data = [];
-let main_characters = ["Aang", "Katara", "Sokka", "Toph", "Zuko", "Azula", "Iroh", "Ozai", "Mai", "Ty Lee", "Jet"]
+let main_characters = ["Aang", "Katara", "Sokka", "Toph", "Zuko", "Azula", "Iroh", "Ozai", "Mai", "Ty Lee", "Jet", "Suki"]
 let modal = document.getElementById("myModal");
 span = document.getElementById("btnCloseModal");
 
+let wikiArticles = {
+  Any: "https://avatar.fandom.com/wiki/Category:Characters",
+  Aang: "https://avatar.fandom.com/wiki/Aang",
+  Zuko: "https://avatar.fandom.com/wiki/Zuko",
+  Katara: "https://avatar.fandom.com/wiki/Katara",
+  Sokka: "https://avatar.fandom.com/wiki/Sokka",
+  Toph: "https://avatar.fandom.com/wiki/Toph_Beifong",
+  Iroh: "https://avatar.fandom.com/wiki/Iroh",
+  Ozai: "https://avatar.fandom.com/wiki/Ozai",
+  Azula: "https://avatar.fandom.com/wiki/Azula",
+  Mai: "https://avatar.fandom.com/wiki/Mai",
+  Ty_Lee: "https://avatar.fandom.com/wiki/Ty_Lee",
+  Suki: "https://avatar.fandom.com/wiki/Suki",
+  Jet: "https://avatar.fandom.com/wiki/Jet",
+  Zhao: "https://avatar.fandom.com/wiki/Zhao",
+  Yue: "https://avatar.fandom.com/wiki/Yue",
+  Hakoda: "https://avatar.fandom.com/wiki/Hakoda",
+  Pakku: "https://avatar.fandom.com/wiki/Pakku",
+  Long_Feng: "https://avatar.fandom.com/wiki/Long_Feng",
+  Hama: "https://avatar.fandom.com/wiki/Hama",
+  Roku: "https://avatar.fandom.com/wiki/Roku",
+  Pathik: "https://avatar.fandom.com/wiki/Pathik",
+  Bato: "https://avatar.fandom.com/wiki/Bato",
+  Haru: "https://avatar.fandom.com/wiki/Haru",
+  Chong: "https://avatar.fandom.com/wiki/Chong",
+  Sozin: "https://avatar.fandom.com/wiki/Sozin",
+  Bumi: "https://avatar.fandom.com/wiki/Bumi_(King_of_Omashu)",
+}
 //-------------------------//
 d3.csv('/data/stop_words.csv', word => stop_words.push(word.words))
-stop_words.push("ill", "weve", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
+stop_words.push("wouldnt", "ill", "weve", "arent", "youll", "thatll", "whos", "im", "well", "cant", "happened", "theres", "shouldnt", "didnt", "tell", "dont", "youre", "theyre", "whats", "thats", "ive", "youve", "doesnt", "wont", "am", "hes", "shes", "gonna", "doing")
 d3.csv("/data/avatar_transcripts.csv")
   .then(_data =>{
     data = _data;
@@ -33,8 +62,10 @@ d3.csv("/data/avatar_transcripts.csv")
     console.log('Data loading complete. Work with dataset.');
 
     // Texts for info tool
-    wordCloudText = "This word cloud shows words that are most commonly used by the specified character in the selected season(s)."
-    pieChartText = "This pie chart shows the proportion of lines spoken broken down by the type of bending discipline the speaker has."
+    wordCloudText = "This word cloud shows words that are most commonly used by the specified character in the selected season(s).";
+    pieChartText = "This pie chart shows the proportion of lines spoken broken down by the type of bending discipline the speaker has.";
+    barChartText = "This bar chart displays the number of episodes each of the main characters appeared in and how many words they said in those episodes. The characters with a logo next to their names are benders and the logo represents their bender type.";
+    chordText = "This chord diagram depicts how frequently each of the main characters reference each other.";
 
     //gets word count of characters across all episodes
     let character_words_map = d3.rollups(_data, v => d3.sum(v, d => d.dialog.split(" ").length), d => d.character);
@@ -100,21 +131,13 @@ d3.csv("/data/avatar_transcripts.csv")
       parentElement: '#pieChart',
       containerWidth: 500,
       containerHeight: 600,
-      }, data, "benderType", "Lines by Bending Discipline", pieChartText);
-
-    pieChart = new Piechart({
-      parentElement: '#pieChart',
-      containerWidth: 500,
-      containerHeight: 600,
-      }, data, "benderType", "Lines by Bending Discipline", pieChartText);
+      }, data, "benderType", "Which bender type talks the most?", pieChartText);
 
     descriptionWordCloud = new WordCloud({parentElement: "#wordCloud"}, data, wordCloudText)
-    wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters)
-    //descriptionWordCloud.updateVis()
+    wordCountBarChart = new Barchart({ parentElement: "#top_characters_barchart"},data,"character","episode", relevant_characters, barChartText)
+    interactionDiagram = new Chord({parentElement: "#chord"}, relevant_char_data, main_characters, chordText);
+    
     filterableVisualizations = [descriptionWordCloud, pieChart];
-
-    interactionDiagram = new Chord({parentElement: "#chord"}, relevant_char_data, main_characters);
-
     filterData(); // initializes filteredData array (to show count on refresh)
     })
 .catch(error => {
@@ -127,12 +150,47 @@ function updateSelectedCharacter(newCharacterSelection){
   pieChart.updateVis(selectedCharacter, selectedSeason);
   d3.select(".characterTableSelected").text(newCharacterSelection)
   table.updateVis();
+  newCharacterSelection = newCharacterSelection.charAt(0).toUpperCase() + newCharacterSelection.slice(1);
+  document.getElementById("currentCharacter").textContent = newCharacterSelection;
+  document.getElementById("currentCharacter").href = wikiArticles[newCharacterSelection.replace(/ /g,"_")];
 }
 
 function updateSelectedSeason(newSeasonSelection){
   selectedSeason = newSeasonSelection;
+  selectedEpisode = "any";
+  document.getElementById("currentEpisode").textContent = "All Episodes";
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
   pieChart.updateVis(selectedCharacter, selectedSeason);
+  // interactionDiagram.updateVis()
+  let element = document.getElementById("ep_button");
+  switch(newSeasonSelection){
+    case "any":
+      document.getElementById("currentSeason").textContent = "All Seasons";
+      element.setAttribute("hidden", "hidden");
+      break;
+    case "1":
+      document.getElementById("currentSeason").textContent = "Book 1 - Water";
+      element.removeAttribute("hidden");
+      break;
+    case "2":
+      document.getElementById("currentSeason").textContent = "Book 2 - Earth";
+      element.removeAttribute("hidden");
+      break;
+    case "3":
+      document.getElementById("currentSeason").textContent = "Book 3 - Fire";
+      element.removeAttribute("hidden");
+      //add ep 21 dynamically
+      document.getElementById("ep21").removeAttribute("hidden");
+      break;
+  }
+}
+function updateSelectedEpisode(newEpisodeSelection){
+  selectedEpisode = newEpisodeSelection;
+  if (selectedEpisode != "any") document.getElementById("currentEpisode").textContent = "Episode " + selectedEpisode;
+  else document.getElementById("currentEpisode").textContent = "All Episodes";
+  console.log(selectedEpisode)
+  descriptionWordCloud.updateVis(selectedCharacter, selectedSeason, selectedEpisode);
+  pieChart.updateVis(selectedCharacter, selectedSeason, selectedEpisode);
 }
 
 function getBenderType(d){
@@ -188,7 +246,6 @@ function filterData(resetBrush = false, fullReset = false) {
 			v.data = filteredData;
 		})
 	}
-	d3.select(".dataCount").text(filteredData.filter(d => !d.filtered).length + " / " + data.length)
 	filterableVisualizations.forEach(v => {
 		v.updateVis(resetBrush);
 	})
@@ -196,6 +253,10 @@ function filterData(resetBrush = false, fullReset = false) {
 
 function clearFilters(){
 	globalDataFilter = [];
+  updateSelectedSeason("any");
+  updateSelectedEpisode("any");
+  updateSelectedCharacter("any");
+  d3.select("#phrase").selectAll('text').remove()
 	filterData(resetBrush=true, fullReset=true);
 }
 
@@ -215,5 +276,33 @@ window.onclick = function(event) {
   console.log("User clicked out, close modal")
   if (event.target == modal) {
   modal.style.display = "none";
+  }
+}
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function selectOtherCharacter() {
+  document.getElementById("selectOtherCharacter").classList.toggle("show");
+}
+
+function selectSeason() {
+  document.getElementById("selectSeason").classList.toggle("show");
+}
+
+function selectEpisode(){
+  document.getElementById("selectEpisode").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
   }
 }
