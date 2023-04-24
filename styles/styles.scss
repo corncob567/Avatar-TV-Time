@@ -16,6 +16,15 @@ body {
     padding: 10px;
   }
 }
+.modal-content{
+  width: 800px;
+  height: 450px;
+  padding: 10px;
+  margin: 0 auto;
+  border-radius: 20px;
+  transform: translate(0, 50%);
+}
+
 
 .line{
   border-bottom: 3px solid #5c3026;
