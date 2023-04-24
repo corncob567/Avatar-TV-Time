@@ -78,11 +78,11 @@ class Barchart {
         .attr('class', 'axis y-axis');
 
     // Info Logo
-    vis.xAxisG
+    vis.svg
     .append("svg:image")
     .attr("xlink:href", "../assets/info-logo.png")
     .attr('class', 'info-logo')
-    .attr("transform", "translate(" + (570) + " ," + (0) + ")")
+    .attr("transform", "translate(" + (700) + " ," + (0) + ")")
     .on("mouseover mouseleave", function(d){ 
         if (!d3.select('#info-tooltip').classed("selected") ){
             d3.select(this).attr("xlink:href", "../assets/info-logo-blue.png");

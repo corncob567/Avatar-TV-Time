@@ -48,6 +48,7 @@ class Piechart {
         .attr("y", -250)
         .attr("text-anchor", "middle")
         .style("font-size", "24px")
+        .style("font-weight", "700")
         //.style('text-decoration', 'underline')
         .text(vis.config.title);
 

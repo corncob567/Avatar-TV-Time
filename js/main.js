@@ -63,7 +63,7 @@ d3.csv("/data/avatar_transcripts.csv")
     // Texts for info tool
     wordCloudText = "This word cloud shows words that are most commonly used by the specified character in the selected season(s).";
     pieChartText = "This pie chart shows the proportion of lines spoken broken down by the type of bending discipline the speaker has.";
-    barChartText = "This bar chart displays the number of lines each of the main characters has in the selected season(s).";
+    barChartText = "This bar chart displays the number of episodes each of the main characters appeared in and how many words they said in those episodes. The characters with a logo next to their names are benders and the logo represents their bender type.";
     chordText = "This chord diagram depicts how frequently each of the main characters reference each other.";
 
     //gets word count of characters across all episodes
