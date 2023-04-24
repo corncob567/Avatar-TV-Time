@@ -220,7 +220,8 @@ button {
 }
 
 .tick {
-  font-size: 12px;
+  font-size: 15px;
+  font-family: "Varela Round", sans-serif;
 }
 
 .bar {
@@ -354,8 +355,10 @@ button {
 .dropbtn {
   cursor: pointer;
   color: black;
+  background-color: rgba(92, 48, 38, 0.4705882353);
   height: 50px;
-  border-radius: 50%;
+  border-radius: 10%;
+  padding: 1px;
 }
 .dropbtn:hover {
   border: 2px solid #5c3026;
