@@ -158,7 +158,7 @@ function updateSelectedSeason(newSeasonSelection){
   selectedSeason = newSeasonSelection;
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
   pieChart.updateVis(selectedCharacter, selectedSeason);
-  interactionDiagram.updateVis()
+  // interactionDiagram.updateVis()
   switch(newSeasonSelection){
     case "any":
       document.getElementById("currentSeason").textContent = "All Seasons";

@@ -141,8 +141,8 @@ class Chord {
 		let vis = this;
         let matrix = Array(vis.importantChar.length).fill(null).map((i) => Array(vis.importantChar.length).fill(0));
 		let importantCharRegex = new RegExp(vis.importantChar.join("|"), "gm")
-		let filteredData = vis.data.filter(d => (d.season.toString() === selectedSeason || selectedSeason === "any"))
-		filteredData.forEach(d => {
+		// let filteredData = vis.data.filter(d => (d.season.toString() === selectedSeason || selectedSeason === "any"))
+		vis.data.forEach(d => {
 			let mention = new Set(d.dialog.match(importantCharRegex));
 			if (mention.size != 0){
 				mention.forEach(m => {
