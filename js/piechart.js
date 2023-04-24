@@ -79,7 +79,7 @@ class Piechart {
   
     updateVis() {
         let vis = this;
-        let filteredData = vis.data.filter(d => !d.filtered && d.dialog !== undefined && (d.character.toLowerCase() === selectedCharacter.toLowerCase() || selectedCharacter === "any") && (d.season.toString() === selectedSeason || selectedSeason === "any"))
+        let filteredData = vis.data.filter(d => !d.filtered && d.dialog !== undefined && (d.character.toLowerCase() === selectedCharacter.toLowerCase() || selectedCharacter === "any") && (d.season.toString() === selectedSeason || selectedSeason === "any") && (d.episode.toString() === selectedEpisode || selectedEpisode === "any"))
         const aggregatedDataMap = d3.rollups(filteredData, v => d3.sum(v, d => !d.filtered && d.benderType !== "Unavailable"), d => d[this.mappedAttribute]);
         vis.aggregatedData = Array.from(aggregatedDataMap, ([key, count]) => ({ key, count }));
         vis.aggregatedData = vis.aggregatedData.filter(d => d.count > 0);

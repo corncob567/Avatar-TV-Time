@@ -206,19 +206,6 @@ class Barchart {
           .text(d.count);
 
     })
-    
-
-    //Add word count to end
-    // vis.relevantCharacterAppearances.forEach(d =>{
-    //   let text = vis.character_word_count.find(n => n.key === d.key).count
-    //   //sy_snum.data = data.filter(d => planetFilter.includes(d.pl_name));
-    //   vis.chart.append('text')
-    //     .attr('y', vis.yScale(vis.yValue(d))+23 )//vis.height + 10)
-    //     .attr('x', vis.xScale(vis.xValue(d))+5 )//vis.width/2)
-    //     .attr('width', 20)
-    //     .attr('height', 20)
-    //     .text(text);
-    //})
 
     //Bender Logos
     vis.relevantCharacterAppearances.forEach(d =>{

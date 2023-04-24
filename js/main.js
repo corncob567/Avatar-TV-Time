@@ -6,6 +6,7 @@ let filterableVisualizations = [];
 let stop_words = [];
 let selectedCharacter = "any";
 let selectedSeason = "any";
+let selectedEpisode = "any";
 let relevant_char_data = [];
 let main_characters = ["Aang", "Katara", "Sokka", "Toph", "Zuko", "Azula", "Iroh", "Ozai", "Mai", "Ty Lee", "Jet", "Suki"]
 let modal = document.getElementById("myModal");
@@ -156,23 +157,40 @@ function updateSelectedCharacter(newCharacterSelection){
 
 function updateSelectedSeason(newSeasonSelection){
   selectedSeason = newSeasonSelection;
+  selectedEpisode = "any";
+  document.getElementById("currentEpisode").textContent = "All Episodes";
   descriptionWordCloud.updateVis(selectedCharacter, selectedSeason);
   pieChart.updateVis(selectedCharacter, selectedSeason);
   // interactionDiagram.updateVis()
+  let element = document.getElementById("ep_button");
   switch(newSeasonSelection){
     case "any":
       document.getElementById("currentSeason").textContent = "All Seasons";
+      element.setAttribute("hidden", "hidden");
       break;
     case "1":
       document.getElementById("currentSeason").textContent = "Book 1 - Water";
+      element.removeAttribute("hidden");
       break;
     case "2":
       document.getElementById("currentSeason").textContent = "Book 2 - Earth";
+      element.removeAttribute("hidden");
       break;
     case "3":
       document.getElementById("currentSeason").textContent = "Book 3 - Fire";
+      element.removeAttribute("hidden");
+      //add ep 21 dynamically
+      document.getElementById("ep21").removeAttribute("hidden");
       break;
   }
+}
+function updateSelectedEpisode(newEpisodeSelection){
+  selectedEpisode = newEpisodeSelection;
+  if (selectedEpisode != "any") document.getElementById("currentEpisode").textContent = "Episode " + selectedEpisode;
+  else document.getElementById("currentEpisode").textContent = "All Episodes";
+  console.log(selectedEpisode)
+  descriptionWordCloud.updateVis(selectedCharacter, selectedSeason, selectedEpisode);
+  pieChart.updateVis(selectedCharacter, selectedSeason, selectedEpisode);
 }
 
 function getBenderType(d){
@@ -236,6 +254,7 @@ function filterData(resetBrush = false, fullReset = false) {
 function clearFilters(){
 	globalDataFilter = [];
   updateSelectedSeason("any");
+  updateSelectedEpisode("any");
   updateSelectedCharacter("any");
   d3.select("#phrase").selectAll('text').remove()
 	filterData(resetBrush=true, fullReset=true);
@@ -268,6 +287,10 @@ function selectOtherCharacter() {
 
 function selectSeason() {
   document.getElementById("selectSeason").classList.toggle("show");
+}
+
+function selectEpisode(){
+  document.getElementById("selectEpisode").classList.toggle("show");
 }
 
 // Close the dropdown if the user clicks outside of it
