@@ -146,6 +146,6 @@ class Piechart {
         labels.append('tspan')
             .attr('y', '1.1em')
             .attr('x', 0)
-            .text(d => `${d.data[1]} lines (${Math.round(d.data[1] / vis.totalLinesUsed * 100)}%)`);
+            .text(d => `${d.data[1]} words (${Math.round(d.data[1] / vis.totalLinesUsed * 100)}%)`);
     }
   }
